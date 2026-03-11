@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nawaz Muztaba | Penetration Tester</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='6' fill='%23020a02'/><text y='75' x='10' font-size='72' font-family='monospace' fill='%2300ff41'>_</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{
+  --g:#00ff41;--gd:#00cc33;--bg:#020a02;--bg2:#050f05;
+  --t:#c8ffc8;--td:#5a8a5a;
+  --r:#ff2244;--a:#ffaa00;--c:#00e5ff;--w:#e8ffe8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t);font-family:'Share Tech Mono',monospace;overflow-x:hidden;}
+
+/* SCROLL BAR */
+#sb{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--g),var(--c));width:0%;z-index:9998;box-shadow:0 0 8px var(--g);}
+
+/* cursor: browser default restored */
+
+/* MATRIX */
+#mx{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.065;}
+
+/* SCANLINES */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);pointer-events:none;z-index:1;}
+
+/* BOOT SCREEN */
+#boot{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:10vw;gap:0;}
+#boot.out{animation:bootOut 0.5s ease forwards;}
+@keyframes bootOut{to{opacity:0;pointer-events:none;}}
+.bl{font-size:13px;color:var(--td);letter-spacing:1px;line-height:1.9;opacity:0;white-space:nowrap;}
+.bl.on{opacity:1;}
+.bl .ok{color:var(--g);}
+.bl .warn{color:var(--a);}
+.bl .err{color:var(--r);}
+.bl .info{color:var(--c);}
+#bbar{width:min(420px,80vw);height:2px;background:rgba(0,255,65,0.08);margin-top:20px;overflow:hidden;}
+#bfill{height:100%;background:var(--g);width:0%;box-shadow:0 0 8px var(--g);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 48px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(2,10,2,0.97),transparent);border-bottom:1px solid rgba(0,255,65,0.06);}
+.nlogo{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--g);text-shadow:0 0 20px var(--g);letter-spacing:3px;line-height:1.1;}
+.nlogo span{color:var(--td);font-size:9px;display:block;letter-spacing:5px;margin-top:2px;}
+.nlinks{display:flex;gap:26px;align-items:center;}
+.nlinks a{font-size:11px;color:var(--td);text-decoration:none;letter-spacing:2px;transition:color 0.2s;position:relative;}
+.nlinks a::before{content:'> ';color:var(--g);opacity:0;transition:opacity 0.2s;}
+.nlinks a:hover,.nlinks a.act{color:var(--g);}
+.nlinks a:hover::before,.nlinks a.act::before{opacity:1;}
+
+/* RESUME DROPDOWN */
+.rdrop{position:relative;}
+.rbtn{padding:8px 18px;border:1px solid var(--g);background:transparent;color:var(--g);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:6px;}
+.rbtn:hover{background:var(--g);color:var(--bg);}
+.rmenu{position:absolute;top:calc(100% + 6px);right:0;background:var(--bg2);border:1px solid rgba(0,255,65,0.25);min-width:190px;display:none;flex-direction:column;z-index:200;box-shadow:0 10px 40px rgba(0,0,0,0.5);}
+.rdrop:hover .rmenu{display:flex;}
+.rmenu a{padding:11px 16px;font-size:10px;color:var(--td);text-decoration:none;letter-spacing:2px;transition:all 0.2s;border-bottom:1px solid rgba(0,255,65,0.06);}
+.rmenu a:last-child{border-bottom:none;}
+.rmenu a:hover{background:rgba(0,255,65,0.06);color:var(--g);}
+
+/* HAMBURGER */
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;z-index:201;}
+.hbg span{width:22px;height:1px;background:var(--g);transition:all 0.3s;display:block;}
+.hbg.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
+.hbg.open span:nth-child(2){opacity:0;}
+.hbg.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
+.mnav{position:fixed;inset:0;background:rgba(2,10,2,0.98);z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;transform:translateX(100%);transition:transform 0.4s ease;}
+.mnav.open{transform:translateX(0);}
+.mnav a{font-family:'Orbitron',monospace;font-size:20px;color:var(--td);text-decoration:none;letter-spacing:4px;transition:color 0.2s;}
+.mnav a:hover{color:var(--g);}
+
+main{position:relative;z-index:10;}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:80px 80px 0;gap:40px;}
+.hleft{}
+.tpfx{font-size:11px;color:var(--td);letter-spacing:2px;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.tpfx::before{content:'';width:8px;height:8px;background:var(--g);border-radius:50%;animation:bk 1.2s infinite;box-shadow:0 0 8px var(--g);}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:0.15}}
+
+.hname{font-family:'Orbitron',monospace;line-height:1.0;margin-bottom:12px;}
+.hname-first{font-size:clamp(28px,3.5vw,48px);font-weight:400;color:var(--td);letter-spacing:10px;display:block;}
+.hname-last{font-size:clamp(54px,7vw,98px);font-weight:900;color:var(--g);display:block;text-shadow:0 0 40px rgba(0,255,65,0.5),0 0 80px rgba(0,255,65,0.15);line-height:0.9;letter-spacing:1px;position:relative;}
+.hname-last::before,.hname-last::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;}
+.hname-last::before{color:#ff0050;clip-path:polygon(0 0,100% 0,100% 38%,0 38%);animation:g1 4s infinite;}
+.hname-last::after{color:#00ffff;clip-path:polygon(0 62%,100% 62%,100% 100%,0 100%);animation:g2 4s infinite;}
+@keyframes g1{0%,85%,100%{transform:translate(0)}87%{transform:translate(-3px,1px)}89%{transform:translate(3px,-1px)}91%{transform:translate(0)}}
+@keyframes g2{0%,85%,100%{transform:translate(0)}87%{transform:translate(3px,1px)}89%{transform:translate(-3px,-1px)}91%{transform:translate(0)}}
+
+.htitle{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:300;color:var(--td);letter-spacing:6px;text-transform:uppercase;margin-bottom:26px;}
+.tcon{font-size:13px;color:var(--gd);height:22px;margin-bottom:36px;display:flex;align-items:center;gap:6px;}
+.tcon::before{content:'$';color:var(--g);}
+#tt{border-right:2px solid var(--g);padding-right:3px;animation:cb 0.7s infinite;}
+@keyframes cb{0%,100%{border-color:var(--g)}50%{border-color:transparent}}
+
+.hbtns{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+.bpri{padding:12px 28px;background:transparent;border:1px solid var(--g);color:var(--g);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;text-decoration:none;display:inline-block;}
+.bpri::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--g);transition:left 0.3s ease;z-index:-1;}
+.bpri:hover{color:var(--bg);}
+.bpri:hover::before{left:0;}
+.bsec{padding:12px 28px;background:transparent;border:1px solid var(--td);color:var(--td);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-block;}
+.bsec:hover{border-color:var(--g);color:var(--g);}
+.bres{padding:12px 28px;background:transparent;border:1px solid var(--r);color:var(--r);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-block;}
+.bres:hover{background:var(--r);color:var(--bg);}
+
+.hstats{display:flex;gap:36px;margin-top:44px;padding-top:24px;border-top:1px solid rgba(0,255,65,0.1);}
+.sitem{text-align:center;}
+.snum{font-family:'Orbitron',monospace;font-size:26px;color:var(--g);text-shadow:0 0 20px var(--g);font-weight:700;}
+.slbl{font-size:9px;color:var(--td);letter-spacing:3px;margin-top:4px;}
+
+/* 3D */
+.hright{display:flex;justify-content:center;align-items:center;position:relative;}
+#tc{width:340px;height:340px;}
+.cring{position:absolute;border-radius:50%;pointer-events:none;}
+.cring:nth-child(1){width:360px;height:360px;border:1px dashed rgba(0,255,65,0.12);animation:sr 30s linear infinite;}
+.cring:nth-child(2){width:400px;height:400px;border:1px solid rgba(0,255,65,0.05);animation:sr 48s linear infinite reverse;}
+.cring:nth-child(3){width:440px;height:440px;border:1px dotted rgba(0,255,65,0.025);animation:sr 68s linear infinite;}
+@keyframes sr{to{transform:rotate(360deg)}}
+
+/* SECTIONS */
+section{padding:100px 80px;position:relative;}
+.sh{margin-bottom:56px;}
+.stag{font-size:10px;color:var(--g);letter-spacing:6px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+.stag::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(0,255,65,0.3),transparent);max-width:180px;}
+.stitle{font-family:'Orbitron',monospace;font-size:clamp(26px,4vw,42px);font-weight:700;color:var(--w);}
+.stitle .ac{color:var(--g);}
+
+/* ABOUT */
+#about{background:var(--bg2);}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.tblock{background:rgba(0,255,65,0.015);border:1px solid rgba(0,255,65,0.14);padding:28px;position:relative;}
+.tblock::before{content:'';position:absolute;top:0;left:0;right:0;height:30px;background:rgba(0,255,65,0.04);border-bottom:1px solid rgba(0,255,65,0.09);}
+.tbar{position:absolute;top:0;left:0;right:0;height:30px;display:flex;align-items:center;padding:0 12px;gap:6px;}
+.td1{width:10px;height:10px;border-radius:50%;background:#ff5f57;flex-shrink:0;}
+.td2{width:10px;height:10px;border-radius:50%;background:#ffbd2e;flex-shrink:0;}
+.td3{width:10px;height:10px;border-radius:50%;background:#28c940;flex-shrink:0;}
+.ttitle{font-size:9px;color:var(--td);letter-spacing:3px;margin:0 auto;}
+.tcontent{margin-top:32px;font-size:12px;line-height:2;color:var(--td);}
+.tcontent .cmd{color:var(--g);}
+.tcontent .out{color:var(--t);padding-left:14px;}
+.tcontent .cmt{color:#3a6a3a;padding-left:14px;}
+
+.aigrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.iitem{padding:13px 15px;border:1px solid rgba(0,255,65,0.09);background:rgba(0,0,0,0.3);transition:border-color 0.3s,background 0.3s;}
+.iitem:hover{border-color:rgba(0,255,65,0.35);background:rgba(0,255,65,0.025);}
+.ilbl{font-size:9px;color:var(--td);letter-spacing:3px;margin-bottom:5px;}
+.ival{font-size:12px;color:var(--g);}
+
+/* SKILLS */
+#skills{background:var(--bg);}
+.sklayout{display:grid;grid-template-columns:380px 1fr;gap:60px;align-items:start;}
+#rcanvas{width:100%;display:block;}
+.sbars{display:flex;flex-direction:column;gap:16px;}
+.sbar{}
+.sbhdr{display:flex;justify-content:space-between;margin-bottom:5px;}
+.sbname{font-size:11px;color:var(--t);letter-spacing:1px;}
+.sbpct{font-size:10px;color:var(--g);font-family:'Orbitron',monospace;}
+.sbtrack{height:3px;background:rgba(0,255,65,0.07);overflow:hidden;}
+.sbfill{height:100%;background:linear-gradient(90deg,var(--g),var(--c));width:0%;transition:width 1.4s cubic-bezier(0.4,0,0.2,1);box-shadow:0 0 5px var(--g);}
+.sbfill.rd{background:linear-gradient(90deg,var(--r),var(--a));}
+.skcats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;}
+.skcat{padding:10px 13px;border:1px solid rgba(0,255,65,0.1);background:rgba(0,255,65,0.015);transition:all 0.3s;position:relative;overflow:hidden;}
+.skcat::after{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--g);transition:height 0.3s;}
+.skcat:hover{border-color:rgba(0,255,65,0.28);transform:translateX(3px);}
+.skcat:hover::after{height:100%;}
+.skcat.rc{border-color:rgba(255,34,68,0.1);}
+.skcat.rc::after{background:var(--r);}
+.skcat.rc:hover{border-color:rgba(255,34,68,0.28);}
+.skcname{font-family:'Orbitron',monospace;font-size:8px;color:var(--g);letter-spacing:3px;margin-bottom:7px;}
+.skcname.rd{color:var(--r);}
+.skctags{display:flex;flex-wrap:wrap;gap:4px;}
+.skctag{font-size:8px;padding:2px 6px;border:1px solid rgba(0,255,65,0.13);color:var(--td);}
+
+/* EXPERIENCE */
+#experience{background:var(--bg2);}
+.eitem{display:grid;grid-template-columns:200px 1fr;gap:40px;padding:36px 0;border-bottom:1px solid rgba(0,255,65,0.06);}
+.eitem:last-child{border-bottom:none;}
+.edate{font-family:'Orbitron',monospace;font-size:10px;color:var(--td);letter-spacing:2px;padding-top:4px;border-right:1px solid rgba(0,255,65,0.1);padding-right:40px;}
+.edate .ep{color:var(--g);font-size:13px;display:block;margin-bottom:6px;}
+.erole{font-family:'Orbitron',monospace;font-size:14px;color:var(--w);margin-bottom:4px;line-height:1.3;}
+.eco{font-size:10px;color:var(--g);letter-spacing:4px;margin-bottom:18px;text-transform:uppercase;}
+.ebulls{list-style:none;}
+.ebulls li{font-size:12px;color:var(--td);line-height:1.8;padding:6px 0 6px 18px;position:relative;border-bottom:1px dashed rgba(0,255,65,0.04);}
+.ebulls li:last-child{border-bottom:none;}
+.ebulls li::before{content:'▸';position:absolute;left:0;color:var(--g);}
+
+/* PROJECTS */
+#projects{background:var(--bg);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:24px;}
+.pcard{border:1px solid rgba(0,255,65,0.1);background:rgba(0,255,65,0.01);padding:28px;position:relative;overflow:hidden;transition:all 0.35s;}
+.pcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:0;transition:opacity 0.3s;}
+.pcard:hover{border-color:rgba(0,255,65,0.28);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,255,65,0.055);}
+.pcard:hover::after{opacity:1;}
+.pcard.rc{border-color:rgba(255,34,68,0.09);}
+.pcard.rc::after{background:linear-gradient(90deg,transparent,var(--r),transparent);}
+.pcard.rc:hover{border-color:rgba(255,34,68,0.28);box-shadow:0 20px 50px rgba(255,34,68,0.045);}
+.pnum{font-family:'Orbitron',monospace;font-size:52px;font-weight:900;color:rgba(0,255,65,0.04);position:absolute;top:12px;right:18px;line-height:1;pointer-events:none;}
+.pnum.rc{color:rgba(255,34,68,0.04);}
+
+/* CVSS */
+.cvss{margin-bottom:16px;}
+.cvss-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.cvss-lbl{font-size:8px;color:var(--td);letter-spacing:3px;width:60px;flex-shrink:0;}
+.cvss-track{flex:1;height:2px;background:rgba(255,255,255,0.05);}
+.cvss-bar{height:100%;}
+.cvss-bar.crit{background:linear-gradient(90deg,var(--r),#ff6644);box-shadow:0 0 5px var(--r);}
+.cvss-bar.hi{background:linear-gradient(90deg,var(--a),#ffcc00);box-shadow:0 0 5px var(--a);}
+.cvss-bar.med{background:linear-gradient(90deg,#88ff00,var(--g));}
+.cvss-score{font-family:'Orbitron',monospace;font-size:8px;width:30px;text-align:right;}
+.cvss-score.crit{color:var(--r);}
+.cvss-score.hi{color:var(--a);}
+.cvss-score.med{color:var(--g);}
+.sbadge{display:inline-block;font-size:7px;padding:2px 8px;letter-spacing:3px;border:1px solid;margin-bottom:12px;}
+.sbadge.crit{color:var(--r);border-color:var(--r);background:rgba(255,34,68,0.06);}
+.sbadge.hi{color:var(--a);border-color:var(--a);background:rgba(255,170,0,0.06);}
+.sbadge.med{color:var(--g);border-color:var(--g);background:rgba(0,255,65,0.06);}
+
+.ptagline{font-size:9px;color:var(--g);letter-spacing:4px;text-transform:uppercase;margin-bottom:9px;}
+.ptagline.rc{color:var(--r);}
+.pname{font-family:'Orbitron',monospace;font-size:13px;color:var(--w);margin-bottom:12px;line-height:1.4;}
+.pdesc{font-size:11px;color:var(--td);line-height:1.85;margin-bottom:16px;}
+.ptech{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
+.tpill{font-size:8px;padding:3px 7px;background:rgba(0,255,65,0.04);border:1px solid rgba(0,255,65,0.15);color:var(--gd);letter-spacing:1px;}
+.tpill.rc{background:rgba(255,34,68,0.04);border-color:rgba(255,34,68,0.15);color:#ff7788;}
+.plink{font-size:9px;color:var(--g);text-decoration:none;letter-spacing:2px;transition:text-shadow 0.2s;display:inline-flex;align-items:center;gap:5px;}
+.plink:hover{text-shadow:0 0 8px var(--g);}
+.plink::after{content:'→';}
+.plink.rc{color:var(--r);}
+.plink.rc:hover{text-shadow:0 0 8px var(--r);}
+
+/* CERTS */
+#certifications{background:var(--bg2);}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;}
+.ccard{padding:20px;border:1px solid rgba(0,255,65,0.09);background:rgba(0,0,0,0.3);display:flex;gap:14px;align-items:flex-start;transition:all 0.3s;position:relative;overflow:hidden;}
+.ccard::before{content:'';position:absolute;top:0;left:0;width:0;height:1px;background:var(--g);transition:width 0.4s;}
+.ccard:hover{border-color:rgba(0,255,65,0.32);background:rgba(0,255,65,0.02);}
+.ccard:hover::before{width:100%;}
+.cicon{width:44px;height:44px;border:1px solid var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--g);font-family:'Orbitron',monospace;font-weight:900;font-size:9px;text-align:center;}
+.cname{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;color:var(--w);margin-bottom:3px;line-height:1.3;}
+.cissuer{font-size:9px;color:var(--g);letter-spacing:2px;}
+.cdate{font-size:8px;color:var(--td);margin-top:4px;letter-spacing:2px;}
+.cbadge{display:inline-block;font-size:7px;padding:2px 7px;border:1px solid;letter-spacing:2px;margin-top:4px;}
+.bact{color:var(--g);border-color:var(--g);background:rgba(0,255,65,0.05);}
+.bprog{color:var(--a);border-color:var(--a);background:rgba(255,170,0,0.05);}
+
+/* CONTACT */
+#contact{background:var(--bg);min-height:60vh;display:flex;flex-direction:column;justify-content:center;}
+.cgrd{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.ctag{font-family:'Orbitron',monospace;font-size:clamp(18px,2.8vw,32px);color:var(--w);margin-bottom:12px;line-height:1.3;}
+.ctag .ac{color:var(--g);}
+.cdesc{font-size:11px;color:var(--td);line-height:2;margin-bottom:26px;}
+.clinks{display:flex;flex-direction:column;gap:9px;}
+.clink{display:flex;align-items:center;gap:14px;text-decoration:none;padding:12px 18px;border:1px solid rgba(0,255,65,0.09);transition:all 0.3s;color:var(--td);font-size:12px;letter-spacing:1px;}
+.clink:hover{border-color:var(--g);color:var(--g);background:rgba(0,255,65,0.025);}
+.cico{font-size:14px;width:18px;text-align:center;}
+.fgrp{margin-bottom:18px;}
+.flbl{font-size:9px;color:var(--td);letter-spacing:4px;text-transform:uppercase;margin-bottom:7px;display:block;}
+.finput,.ftxt{width:100%;background:rgba(0,255,65,0.02);border:1px solid rgba(0,255,65,0.13);color:var(--t);font-family:'Share Tech Mono',monospace;font-size:12px;padding:11px 14px;outline:none;transition:border-color 0.3s;cursor:text;}
+.finput:focus,.ftxt:focus{border-color:var(--g);box-shadow:0 0 16px rgba(0,255,65,0.06);}
+.ftxt{resize:vertical;min-height:110px;}
+
+/* EDUCATION */
+#education{background:var(--bg2);}
+.edugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.educard{padding:28px;border:1px solid rgba(0,255,65,0.1);background:rgba(0,0,0,0.3);position:relative;overflow:hidden;transition:all 0.3s;}
+.educard::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--g);transition:height 0.4s;}
+.educard:hover{border-color:rgba(0,255,65,0.3);background:rgba(0,255,65,0.02);}
+.educard:hover::before{height:100%;}
+.edu-year{font-family:'Orbitron',monospace;font-size:10px;color:var(--g);letter-spacing:3px;margin-bottom:12px;}
+.edu-deg{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--w);margin-bottom:4px;line-height:1.3;}
+.edu-spec{font-size:10px;color:var(--td);letter-spacing:2px;margin-bottom:8px;}
+.edu-uni{font-size:11px;color:var(--g);letter-spacing:1px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px dashed rgba(0,255,65,0.08);}
+.edu-meta{display:flex;flex-wrap:wrap;gap:6px;}
+.edu-badge{font-size:8px;padding:3px 8px;border:1px solid rgba(0,255,65,0.2);color:var(--td);letter-spacing:2px;}
+.edu-badge.active{border-color:var(--g);color:var(--g);background:rgba(0,255,65,0.05);}
+
+/* RESUME SECTION */
+#resume{background:var(--bg);}
+.resgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:24px;}
+.rescard{padding:32px;border:1px solid rgba(0,255,65,0.12);background:rgba(0,255,65,0.015);position:relative;overflow:hidden;transition:all 0.3s;}
+.rescard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:0;transition:opacity 0.3s;}
+.rescard:hover{border-color:rgba(0,255,65,0.35);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,255,65,0.06);}
+.rescard:hover::after{opacity:1;}
+.rescard.rc{border-color:rgba(255,34,68,0.12);}
+.rescard.rc::after{background:linear-gradient(90deg,transparent,var(--r),transparent);}
+.rescard.rc:hover{border-color:rgba(255,34,68,0.35);box-shadow:0 20px 50px rgba(255,34,68,0.05);}
+.res-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.res-icon{width:52px;height:52px;border:1px solid var(--g);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-weight:900;font-size:11px;color:var(--g);flex-shrink:0;text-shadow:0 0 12px var(--g);}
+.res-icon.rc{border-color:var(--r);color:var(--r);text-shadow:0 0 12px var(--r);}
+.res-title{font-family:'Orbitron',monospace;font-size:14px;color:var(--w);margin-bottom:4px;}
+.res-sub{font-size:9px;color:var(--td);letter-spacing:2px;}
+.res-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
+.rtag{font-size:8px;padding:3px 8px;background:rgba(0,255,65,0.04);border:1px solid rgba(0,255,65,0.15);color:var(--gd);letter-spacing:1px;}
+.rtag.rc{background:rgba(255,34,68,0.04);border-color:rgba(255,34,68,0.18);color:#ff7788;}
+.res-optimized{font-size:9px;color:var(--g);letter-spacing:3px;margin-bottom:20px;padding:6px 10px;border-left:2px solid var(--g);background:rgba(0,255,65,0.03);}
+.res-optimized.rc{color:var(--r);border-color:var(--r);background:rgba(255,34,68,0.03);}
+.res-btn{display:block;text-align:center;padding:13px 24px;border:1px solid var(--g);color:var(--g);text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;transition:all 0.3s;position:relative;overflow:hidden;}
+.res-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--g);transition:left 0.3s;z-index:-1;}
+.res-btn:hover{color:var(--bg);}
+.res-btn:hover::before{left:0;}
+.res-btn.rc{border-color:var(--r);color:var(--r);}
+.res-btn.rc::before{background:var(--r);}
+.res-btn.rc:hover{color:var(--bg);}
+.res-note{display:flex;align-items:center;gap:10px;padding:14px 18px;border:1px dashed rgba(0,255,65,0.12);font-size:11px;color:var(--td);letter-spacing:1px;background:rgba(0,255,65,0.01);}
+.res-note-icon{color:var(--c);font-size:14px;flex-shrink:0;}
+
+/* FOOTER */
+footer{padding:28px 80px;border-top:1px solid rgba(0,255,65,0.07);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10;background:var(--bg);}
+.ftxt2{font-size:10px;color:var(--td);letter-spacing:2px;}
+.ftxt2 span{color:var(--g);}
+
+/* FADE UP */
+.fu{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fu.v{opacity:1;transform:translateY(0);}
+.fu.d1{transition-delay:0.1s;}
+.fu.d2{transition-delay:0.2s;}
+.fu.d3{transition-delay:0.3s;}
+.fu.d4{transition-delay:0.4s;}
+.fu.d5{transition-delay:0.5s;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:rgba(0,255,65,0.25);}
+::-webkit-scrollbar-thumb:hover{background:var(--g);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  #hero{grid-template-columns:1fr;padding:100px 28px 60px;}
+  .hright{display:none;}
+  section{padding:72px 28px;}
+  .agrid,.cgrd,.sklayout,.eitem,.resgrid{grid-template-columns:1fr;}
+  nav{padding:14px 24px;}
+  .nlinks{display:none;}
+  .hbg{display:flex;}
+  footer{padding:22px 28px;flex-direction:column;gap:10px;text-align:center;}
+  .stitle{font-size:clamp(22px,6vw,34px);}
+}
+@media(max-width:600px){
+  .pgrid,.cgrid,.skcats{grid-template-columns:1fr;}
+  .hstats{gap:20px;}
+  .aigrid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="mx"></canvas>
+<div id="sb"></div>
+<!-- cursor: default browser cursor active -->
+
+<!-- BOOT SCREEN -->
+<div id="boot">
+  <div class="bl" id="b0"><span class="ok">[ OK ]</span> Initializing secure environment...</div>
+  <div class="bl" id="b1"><span class="ok">[ OK ]</span> Loading kernel modules: exploit_core.ko pentest_utils.ko</div>
+  <div class="bl" id="b2"><span class="info">[ .. ]</span> Mounting encrypted filesystem: /dev/nvme0 → /home/nawaz</div>
+  <div class="bl" id="b3"><span class="ok">[ OK ]</span> Filesystem mounted. LUKS2 decryption successful.</div>
+  <div class="bl" id="b4"><span class="warn">[ WN ]</span> Firewall rules loaded. 847 rules active. 3 overrides detected.</div>
+  <div class="bl" id="b5"><span class="ok">[ OK ]</span> Network interfaces: eth0 [UP] tun0 [VPN ACTIVE] wlan0 [UP]</div>
+  <div class="bl" id="b6"><span class="info">[ .. ]</span> Scanning for active threats on 192.168.0.0/24...</div>
+  <div class="bl" id="b7"><span class="ok">[ OK ]</span> No threats detected. Attack surface: minimal.</div>
+  <div class="bl" id="b8"><span class="err">[ !! ]</span> ALERT: Unauthorized recon attempt from 10.0.0.47 — blocked &amp; logged.</div>
+  <div class="bl" id="b9"><span class="ok">[ OK ]</span> CEH certification module: VERIFIED [sha256: a3f9...]</div>
+  <div class="bl" id="b10"><span class="ok">[ OK ]</span> Burp Suite Pro, Metasploit Framework, Nmap — ready.</div>
+  <div class="bl" id="b11"><span class="info">[ .. ]</span> Establishing portfolio interface... loading assets...</div>
+  <div id="bbar"><div id="bfill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nlogo">NM<span>NAWAZ MUZTABA</span></div>
+  <div class="nlinks">
+    <a href="#about">ABOUT</a>
+    <a href="#skills">SKILLS</a>
+    <a href="#experience">EXP</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#certifications">CERTS</a>
+    <a href="#education">EDU</a>
+    <a href="#resume">RESUME</a>
+    <a href="#contact">CONTACT</a>
+    <div class="rdrop">
+      <button class="rbtn">↓ DOWNLOAD</button>
+      <div class="rmenu">
+        <!-- EDIT RESUME LINKS: rename your PDF files and put in same folder as index.html -->
+        <a href="Nawaz_SOC_Resume.pdf" download="Nawaz_Muztaba_SOC_Resume.pdf">▸ SOC Analyst Resume</a>
+        <a href="Nawaz_RedTeam_Resume.pdf" download="Nawaz_Muztaba_RedTeam_Resume.pdf">▸ Red Team Resume</a>
+      </div>
+    </div>
+  </div>
+  <div class="hbg" id="hbg" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mnav" id="mnav">
+  <a href="#about" onclick="toggleMobileNav()">ABOUT</a>
+  <a href="#skills" onclick="toggleMobileNav()">SKILLS</a>
+  <a href="#experience" onclick="toggleMobileNav()">EXPERIENCE</a>
+  <a href="#projects" onclick="toggleMobileNav()">PROJECTS</a>
+  <a href="#certifications" onclick="toggleMobileNav()">CERTS</a>
+  <a href="#education" onclick="toggleMobileNav()">EDUCATION</a>
+  <a href="#resume" onclick="toggleMobileNav()">RESUME</a>
+  <a href="#contact" onclick="toggleMobileNav()">CONTACT</a>
+</div>
+
+<!-- HERO -->
+<main>
+<section id="hero">
+  <div class="hleft fu">
+    <div class="tpfx">root@nawaz:~# ./whoami.sh</div>
+    <!-- EDIT: Your name -->
+    <div class="hname">
+      <span class="hname-first">NAWAZ</span>
+      <span class="hname-last" data-text="MUZTABA">MUZTABA</span>
+    </div>
+    <!-- EDIT: Your job title -->
+    <div class="htitle">Penetration Tester &amp; Red Team Enthusiast</div>
+    <div class="tcon"><span id="tt"></span></div>
+    <div class="hbtns">
+      <a href="#projects" class="bpri">VIEW PROJECTS</a>
+      <a href="#contact" class="bsec">HIRE ME</a>
+      <a href="#resume" class="bres">↓ RESUME</a>
+    </div>
+    <div class="hstats">
+      <div class="sitem"><div class="snum" data-target="25" data-suffix="+">0</div><div class="slbl">VULNS FOUND</div></div>
+      <div class="sitem"><div class="snum" data-target="3">0</div><div class="slbl">PROJECTS</div></div>
+      <div class="sitem"><div class="snum" data-target="5">0</div><div class="slbl">CERTIFICATIONS</div></div>
+      <div class="sitem"><div class="snum" data-target="75" data-suffix="/10" data-divide="10">0</div><div class="slbl">CGPA</div></div>
+    </div>
+  </div>
+  <div class="hright">
+    <div class="cring"></div>
+    <div class="cring"></div>
+    <div class="cring"></div>
+    <canvas id="tc"></canvas>
+  </div>
+</section>
+
+<!-- ABOUT — EDIT: update the 3 paragraphs inside .tcontent to change your bio text -->
+<section id="about">
+  <div class="sh fu">
+    <div class="stag">01 // ABOUT</div>
+    <h2 class="stitle">WHO AM <span class="ac">I_</span></h2>
+  </div>
+  <div class="agrid">
+    <div class="tblock fu d1">
+      <div class="tbar">
+        <div class="td1"></div><div class="td2"></div><div class="td3"></div>
+        <span class="ttitle">nawaz@kali: ~</span>
+      </div>
+      <div class="tcontent">
+        <div class="cmd">$ cat about.txt</div>
+        <div class="cmt"># Entry-level Penetration Tester | CEH Certified</div>
+        <div class="out">Final-year B.Tech CSE at LPU Phagwara, specializing in cybersecurity. Graduating May 2026 with CGPA 7.5.</div>
+        <br/>
+        <div class="cmd">$ cat mission.txt</div>
+        <div class="out">My mission is offensive security — finding vulnerabilities before attackers do. Passionate about web app pentesting, VAPT, and building automated red team tooling.</div>
+        <br/>
+        <div class="cmd">$ ./status.sh</div>
+        <div class="cmt"># [OPEN TO WORK] Fresher roles — SOC &amp; Red Team</div>
+        <div class="out">Targeting Pune. Long-term goal: full offensive security specialist.</div>
+        <br/>
+        <div class="cmd">$ <span style="animation:bk 1s infinite;display:inline-block">▌</span></div>
+      </div>
+    </div>
+    <div class="fu d2">
+      <div class="aigrid">
+        <div class="iitem"><div class="ilbl">LOCATION</div><div class="ival">Pune (Target)</div></div>
+        <div class="iitem"><div class="ilbl">STATUS</div><div class="ival" style="text-shadow:0 0 8px var(--g)">▸ OPEN TO WORK</div></div>
+        <div class="iitem"><div class="ilbl">DEGREE</div><div class="ival">B.Tech CSE 2026</div></div>
+        <div class="iitem"><div class="ilbl">UNIVERSITY</div><div class="ival">LPU Phagwara</div></div>
+        <div class="iitem"><div class="ilbl">SPECIALIZATION</div><div class="ival">Cybersecurity</div></div>
+        <div class="iitem"><div class="ilbl">FOCUS</div><div class="ival">Red Team / VAPT</div></div>
+        <div class="iitem"><div class="ilbl">GITHUB</div><div class="ival">NawazMuztaba</div></div>
+        <div class="iitem"><div class="ilbl">CGPA</div><div class="ival">7.5 / 10</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sh fu">
+    <div class="stag">02 // SKILLS</div>
+    <h2 class="stitle">TECH <span class="ac">ARSENAL_</span></h2>
+  </div>
+  <div class="sklayout">
+    <div class="fu d1">
+      <canvas id="rcanvas" width="380" height="360"></canvas>
+    </div>
+    <div class="fu d2">
+      <div class="sbars" id="skillbars">
+        <div class="sbar"><div class="sbhdr"><span class="sbname">Web App Pentesting</span><span class="sbpct">88%</span></div><div class="sbtrack"><div class="sbfill" data-w="88"></div></div></div>
+        <div class="sbar"><div class="sbhdr"><span class="sbname">Network Pentesting</span><span class="sbpct">82%</span></div><div class="sbtrack"><div class="sbfill" data-w="82"></div></div></div>
+        <div class="sbar"><div class="sbhdr"><span class="sbname">Burp Suite / Metasploit</span><span class="sbpct">85%</span></div><div class="sbtrack"><div class="sbfill" data-w="85"></div></div></div>
+        <div class="sbar"><div class="sbhdr"><span class="sbname">Python Automation</span><span class="sbpct">80%</span></div><div class="sbtrack"><div class="sbfill" data-w="80"></div></div></div>
+        <div class="sbar"><div class="sbhdr"><span class="sbname" style="color:var(--r)">MITRE ATT&amp;CK Mapping</span><span class="sbpct" style="color:var(--r)">78%</span></div><div class="sbtrack"><div class="sbfill rd" data-w="78"></div></div></div>
+        <div class="sbar"><div class="sbhdr"><span class="sbname" style="color:var(--r)">VAPT &amp; Reporting</span><span class="sbpct" style="color:var(--r)">84%</span></div><div class="sbtrack"><div class="sbfill rd" data-w="84"></div></div></div>
+        <div class="sbar"><div class="sbhdr"><span class="sbname">SIEM / ELK / Splunk</span><span class="sbpct">72%</span></div><div class="sbtrack"><div class="sbfill" data-w="72"></div></div></div>
+      </div>
+      <div class="skcats">
+        <div class="skcat"><div class="skcname">OFFENSIVE TOOLS</div><div class="skctags"><span class="skctag">Burp Suite</span><span class="skctag">Metasploit</span><span class="skctag">SQLMap</span><span class="skctag">Gobuster</span><span class="skctag">Hydra</span><span class="skctag">Nikto</span></div></div>
+        <div class="skcat rc"><div class="skcname rd">RED TEAM OPS</div><div class="skctags"><span class="skctag">PTES</span><span class="skctag">MITRE ATT&amp;CK</span><span class="skctag">Post-Exploit</span><span class="skctag">Priv-Esc</span></div></div>
+        <div class="skcat"><div class="skcname">RECON &amp; OSINT</div><div class="skctags"><span class="skctag">Nmap</span><span class="skctag">OpenVAS</span><span class="skctag">Wireshark</span><span class="skctag">MobSF</span></div></div>
+        <div class="skcat"><div class="skcname">SCRIPTING</div><div class="skctags"><span class="skctag">Python</span><span class="skctag">Bash</span><span class="skctag">PowerShell</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sh fu">
+    <div class="stag">03 // EXPERIENCE</div>
+    <h2 class="stitle">FIELD <span class="ac">OPS_</span></h2>
+  </div>
+  <div class="eitem fu">
+    <div class="edate"><span class="ep">JAN – MAR 2025</span>3 MONTHS<br/>PUNE, IN</div>
+    <div>
+      <div class="erole">Security Intern | VAPT &amp; Penetration Testing</div>
+      <div class="eco">Vaishnav Technologies Pvt Ltd</div>
+      <ul class="ebulls">
+        <li>Conducted web application pentesting on 3 internal apps aligned with OWASP Top 10; identified 12+ vulnerabilities including SQL injection, XSS, and security misconfigurations using Burp Suite and Nikto.</li>
+        <li>Performed network pentesting and reconnaissance using Nmap and OpenVAS across 2 internal network segments; identified 8+ exposed services, documented in structured remediation reports.</li>
+        <li>Executed post-exploitation analysis to assess real-world impact; performed privilege escalation tests with CVSS severity scores for prioritized remediation.</li>
+        <li>Supported red team exercises correlating 15+ IOCs mapped to MITRE ATT&amp;CK techniques; assisted in adversarial simulation and attack surface mapping across target environments.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS — EDIT: each .pcard is one project. Change .pname, .pdesc, .ptech pills, and the <a href> GitHub link per card -->
+<section id="projects">
+  <div class="sh fu">
+    <div class="stag">04 // PROJECTS</div>
+    <h2 class="stitle">EXPLOIT <span class="ac">LABS_</span></h2>
+  </div>
+  <div class="pgrid">
+    <div class="pcard rc fu d1">
+      <div class="pnum rc">01</div>
+      <div class="sbadge crit">THREAT: CRITICAL</div>
+      <div class="cvss">
+        <div class="cvss-row"><span class="cvss-lbl">IMPACT</span><div class="cvss-track"><div class="cvss-bar crit" style="width:92%"></div></div><span class="cvss-score crit">9.2</span></div>
+        <div class="cvss-row"><span class="cvss-lbl">EXPLOIT</span><div class="cvss-track"><div class="cvss-bar hi" style="width:78%"></div></div><span class="cvss-score hi">7.8</span></div>
+      </div>
+      <div class="ptagline rc">Red Team / Automation</div>
+      <div class="pname">Sentinel-X: Automated VAPT &amp; Attack Surface Framework</div>
+      <div class="pdesc">Automated red team framework integrating recon, asset discovery, service enumeration, and TLS analysis. Scanned 10+ environments, detected 25+ misconfigurations risk-scored with CVSS. Reduced manual recon time by ~60%.</div>
+      <div class="ptech"><span class="tpill rc">Python</span><span class="tpill rc">Bash</span><span class="tpill rc">PTES</span><span class="tpill rc">CVSS</span><span class="tpill rc">VAPT</span></div>
+      <a href="https://github.com/NawazMuztaba/Sentinel-X" target="_blank" class="plink rc">VIEW ON GITHUB</a>
+    </div>
+    <div class="pcard fu d2">
+      <div class="pnum">02</div>
+      <div class="sbadge hi">THREAT: HIGH</div>
+      <div class="cvss">
+        <div class="cvss-row"><span class="cvss-lbl">DETECTION</span><div class="cvss-track"><div class="cvss-bar hi" style="width:85%"></div></div><span class="cvss-score hi">8.5</span></div>
+        <div class="cvss-row"><span class="cvss-lbl">ACCURACY</span><div class="cvss-track"><div class="cvss-bar med" style="width:95%"></div></div><span class="cvss-score med">9.5</span></div>
+      </div>
+      <div class="ptagline">SOC / Detection Engineering</div>
+      <div class="pname">Intelligent SOC Automation System</div>
+      <div class="pdesc">Log-based attack simulation engine replicating red team TTPs — brute-force, port scanning, anomalous auth. Mapped 8+ attack patterns to MITRE ATT&amp;CK. Validated 95% IOC detection accuracy across 5 scenarios.</div>
+      <div class="ptech"><span class="tpill">Python</span><span class="tpill">ELK Stack</span><span class="tpill">MITRE ATT&amp;CK</span><span class="tpill">SIEM</span></div>
+      <a href="https://github.com/NawazMuztaba/intelligent-soc-automation" target="_blank" class="plink">VIEW ON GITHUB</a>
+    </div>
+    <div class="pcard fu d3">
+      <div class="pnum">03</div>
+      <div class="sbadge med">THREAT: MEDIUM</div>
+      <div class="cvss">
+        <div class="cvss-row"><span class="cvss-lbl">VULNS</span><div class="cvss-track"><div class="cvss-bar med" style="width:72%"></div></div><span class="cvss-score med">18+</span></div>
+        <div class="cvss-row"><span class="cvss-lbl">COVERAGE</span><div class="cvss-track"><div class="cvss-bar hi" style="width:80%"></div></div><span class="cvss-score hi">TOP10</span></div>
+      </div>
+      <div class="ptagline">Mobile Security</div>
+      <div class="pname">Android Application Security Analysis using MobSF</div>
+      <div class="pdesc">Static and dynamic testing of 5 Android apps using MobSF. Found 18+ vulnerabilities mapped to OWASP Mobile Top 10. Captured 4+ unencrypted HTTP transmissions of sensitive data via Wireshark.</div>
+      <div class="ptech"><span class="tpill">MobSF</span><span class="tpill">Wireshark</span><span class="tpill">OWASP Mobile</span><span class="tpill">Android</span></div>
+      <a href="https://www.linkedin.com/posts/nawaz-muztaba_cybersecurity-securityawareness-phishing-ugcPost-7382039502548008961" target="_blank" class="plink">VIEW DEMO</a>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS — EDIT: each .ccard is one cert. Change the abbrev, name, issuer, date. Add/remove cards freely -->
+<section id="certifications">
+  <div class="sh fu">
+    <div class="stag">05 // CERTIFICATIONS</div>
+    <h2 class="stitle">VERIFIED <span class="ac">CLEARANCE_</span></h2>
+  </div>
+  <div class="cgrid">
+    <div class="ccard fu d1"><div class="cicon">CEH</div><div><div class="cname">Certified Ethical Hacker</div><div class="cissuer">EC-Council</div><div class="cdate">FEB 2026</div><div class="cbadge bact">ACTIVE</div></div></div>
+    <div class="ccard fu d2"><div class="cicon">eJPT</div><div><div class="cname">eJPT Junior Penetration Tester</div><div class="cissuer">INE Security</div><div class="cdate">2026</div><div class="cbadge bprog">IN PROGRESS</div></div></div>
+    <div class="ccard fu d3"><div class="cicon">DFE</div><div><div class="cname">Digital Forensics Essentials</div><div class="cissuer">EC-Council</div><div class="cdate">JAN 2025</div><div class="cbadge bact">ACTIVE</div></div></div>
+    <div class="ccard fu d4"><div class="cicon">LX+</div><div><div class="cname">CompTIA Linux+</div><div class="cissuer">Cybrary</div><div class="cdate">DEC 2024</div><div class="cbadge bact">ACTIVE</div></div></div>
+    <div class="ccard fu d5"><div class="cicon">CC</div><div><div class="cname">Cloud Computing</div><div class="cissuer">NPTEL | IIT Kharagpur</div><div class="cdate">JUL 2024</div><div class="cbadge bact">ACTIVE</div></div></div>
+    <div class="ccard fu"><div class="cicon">THM</div><div><div class="cname">TryHackMe / HackTheBox</div><div class="cissuer">Active Offensive Labs</div><div class="cdate">ONGOING</div><div class="cbadge bprog">ACTIVE</div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT — EDIT: update email/phone/LinkedIn/GitHub links below. For Formspree: find FORMSPREE_ID near bottom of script -->
+<section id="education">
+  <div class="sh fu">
+    <div class="stag">06 // EDUCATION</div>
+    <h2 class="stitle">ACADEMIC <span class="ac">RECORD_</span></h2>
+  </div>
+  <div class="edugrid">
+    <div class="educard fu d1">
+      <div class="edu-year">2022 – 2026</div>
+      <div class="edu-deg">B.Tech — Computer Science &amp; Engineering</div>
+      <div class="edu-spec">Specialization: Cybersecurity</div>
+      <div class="edu-uni">Lovely Professional University, Phagwara</div>
+      <div class="edu-meta">
+        <span class="edu-badge">CGPA: 7.5 / 10</span>
+        <span class="edu-badge active">GRADUATING MAY 2026</span>
+      </div>
+    </div>
+    <div class="educard fu d2">
+      <div class="edu-year">2019 – 2021</div>
+      <div class="edu-deg">Class XII — PCM (Science)</div>
+      <div class="edu-spec">Physics · Chemistry · Mathematics</div>
+      <div class="edu-uni">Bihar Board, Muzaffarpur</div>
+      <div class="edu-meta">
+        <span class="edu-badge">84%</span>
+        <span class="edu-badge">COMPLETED</span>
+      </div>
+    </div>
+    <div class="educard fu d3">
+      <div class="edu-year">2024 – 2025</div>
+      <div class="edu-deg">Security Internship</div>
+      <div class="edu-spec">VAPT · Penetration Testing · Red Team</div>
+      <div class="edu-uni">Vaishnav Technologies Pvt Ltd, Pune</div>
+      <div class="edu-meta">
+        <span class="edu-badge active">3 MONTHS</span>
+        <span class="edu-badge active">INDUSTRY EXPERIENCE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME SECTION — EDIT: update the PDF filenames to match your actual files -->
+<section id="resume">
+  <div class="sh fu">
+    <div class="stag">07 // RESUME</div>
+    <h2 class="stitle">DOWNLOAD <span class="ac">CV_</span></h2>
+  </div>
+  <div class="resgrid">
+    <!-- SOC Resume Card -->
+    <div class="rescard fu d1">
+      <div class="res-header">
+        <div class="res-icon">SOC</div>
+        <div>
+          <div class="res-title">SOC Analyst Resume</div>
+          <div class="res-sub">Blue Team · SIEM · Incident Response</div>
+        </div>
+      </div>
+      <div class="res-tags">
+        <span class="rtag">ELK Stack</span><span class="rtag">Splunk</span><span class="rtag">MITRE ATT&amp;CK</span><span class="rtag">IOC Analysis</span><span class="rtag">SIEM</span>
+      </div>
+      <div class="res-optimized">ATS Score: ~90%</div>
+      <!-- EDIT: rename your SOC resume PDF to Nawaz_SOC_Resume.pdf and put it in same folder -->
+      <a href="Nawaz_SOC_Resume.pdf" download="Nawaz_Muztaba_SOC_Resume.pdf" class="res-btn">↓ DOWNLOAD SOC RESUME</a>
+    </div>
+    <!-- Red Team Resume Card -->
+    <div class="rescard rc fu d2">
+      <div class="res-header">
+        <div class="res-icon rc">RED</div>
+        <div>
+          <div class="res-title">Red Team Resume</div>
+          <div class="res-sub">Penetration Testing · VAPT · Offensive Sec</div>
+        </div>
+      </div>
+      <div class="res-tags">
+        <span class="rtag rc">Burp Suite</span><span class="rtag rc">Metasploit</span><span class="rtag rc">PTES</span><span class="rtag rc">CVSS</span><span class="rtag rc">VAPT</span>
+      </div>
+      <div class="res-optimized rc">ATS Score: ~91.5%</div>
+      <!-- EDIT: rename your Red Team resume PDF to Nawaz_RedTeam_Resume.pdf and put it in same folder -->
+      <a href="Nawaz_RedTeam_Resume.pdf" download="Nawaz_Muztaba_RedTeam_Resume.pdf" class="res-btn rc">↓ DOWNLOAD RED TEAM RESUME</a>
+    </div>
+  </div>
+  <div class="res-note fu">
+    <span class="res-note-icon">ℹ</span>
+    Both resumes are single-page A4, ATS-optimized. Choose based on the role you're applying for.
+  </div>
+</section>
+
+<!-- CONTACT — EDIT: update email/phone/LinkedIn/GitHub links below -->
+<section id="contact">
+  <div class="sh fu">
+    <div class="stag">08 // CONTACT</div>
+    <h2 class="stitle">OPEN <span class="ac">CHANNEL_</span></h2>
+  </div>
+  <div class="cgrd">
+    <div class="fu d1">
+      <div class="ctag">Ready to <span class="ac">breach</span> the job market together?</div>
+      <div class="cdesc">Actively hunting fresher roles in Penetration Testing, VAPT, or SOC Analysis. CEH certified, hands-on with real tools, ready to contribute from day one.</div>
+      <div class="clinks">
+        <a href="mailto:nawazmuztaba000@gmail.com" class="clink"><span class="cico">✉</span>nawazmuztaba000@gmail.com</a>
+        <a href="tel:+916200289203" class="clink"><span class="cico">☎</span>+91 6200289203</a>
+        <a href="https://linkedin.com/in/nawaz-muztaba/" target="_blank" class="clink"><span class="cico">in</span>linkedin.com/in/nawaz-muztaba</a>
+        <a href="https://github.com/NawazMuztaba" target="_blank" class="clink"><span class="cico">⌥</span>github.com/NawazMuztaba</a>
+      </div>
+    </div>
+    <div class="fu d2">
+      <div class="tblock">
+        <div class="tbar"><div class="td1"></div><div class="td2"></div><div class="td3"></div><span class="ttitle">send_message.sh</span></div>
+        <div style="margin-top:36px;">
+          <div class="fgrp"><label class="flbl">NAME</label><input class="finput" type="text" placeholder="your_name" id="cname"/></div>
+          <div class="fgrp"><label class="flbl">EMAIL</label><input class="finput" type="email" placeholder="your@email.com" id="cemail"/></div>
+          <div class="fgrp"><label class="flbl">MESSAGE</label><textarea class="ftxt" placeholder="Your message..." id="cmsg"></textarea></div>
+          <button class="bpri" style="width:100%;justify-content:center;border:none;padding:14px;font-size:12px;" id="sendBtn" onclick="sendMsg()">SEND MESSAGE</button>
+          <div id="fsuccess" style="display:none;margin-top:12px;padding:12px;border:1px solid var(--g);background:rgba(0,255,65,0.04);font-size:11px;color:var(--g);letter-spacing:2px;text-align:center;">✓ MESSAGE SENT — I'll respond within 24hrs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="ftxt2">© 2026 <span>NAWAZ MUZTABA</span> — CEH Certified Penetration Tester</div>
+  <div class="ftxt2">Made with <span>0xFF</span> love &amp; caffeine</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// cursor: browser default — no custom cursor JS needed
+
+// ── SCROLL PROGRESS ──
+const sb=document.getElementById('sb');
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  sb.style.width=pct+'%';
+  // NAV active
+  const secs=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('.nlinks a');
+  let cur2='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-220)cur2=s.id;});
+  links.forEach(l=>{l.classList.toggle('act',l.getAttribute('href')==='#'+cur2);});
+});
+
+// ── MATRIX RAIN ──
+const mc=document.getElementById('mx'),mctx=mc.getContext('2d');
+const chars='01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&';
+let drops=[];
+function resizeMx(){
+  mc.width=window.innerWidth;
+  mc.height=window.innerHeight;
+  drops=Array(Math.floor(mc.width/16)).fill(1);
+}
+resizeMx();
+window.addEventListener('resize',resizeMx);
+function drawMx(){
+  mctx.fillStyle='rgba(2,10,2,0.045)';mctx.fillRect(0,0,mc.width,mc.height);
+  mctx.font='13px Share Tech Mono';
+  drops.forEach((y,i)=>{
+    const c=chars[Math.floor(Math.random()*chars.length)];
+    mctx.fillStyle=y===1?'#ffffff':`rgba(0,255,65,${Math.random()*0.45+0.15})`;
+    mctx.fillText(c,i*16,y*16);
+    if(y*16>mc.height&&Math.random()>0.975)drops[i]=0;
+    drops[i]++;
+  });
+}
+setInterval(drawMx,50);
+
+// ── BOOT SEQUENCE ──
+const bootLines=document.querySelectorAll('.bl');
+const bfill=document.getElementById('bfill');
+const bootEl=document.getElementById('boot');
+let bi=0;
+function showBoot(){
+  if(bi<bootLines.length){
+    bootLines[bi].classList.add('on');
+    bfill.style.width=((bi+1)/bootLines.length*100)+'%';
+    bi++;
+    setTimeout(showBoot,bi<4?180:bi<8?140:100);
+  } else {
+    setTimeout(()=>{
+      bootEl.classList.add('out');
+      setTimeout(()=>{bootEl.style.display='none';startHero();},600);
+    },400);
+  }
+}
+showBoot();
+
+function startHero(){
+  setTimeout(()=>document.querySelectorAll('#hero .fu').forEach(el=>el.classList.add('v')),100);
+  startTyping();
+  initThreeJS();
+  startCounters();
+}
+
+// ── TYPING ──
+const phrases=['whoami: Penetration Tester','tool: Burp Suite --proxy 8080','exec: ./Sentinel-X.py --scan','cert: CEH [VERIFIED ✓]','target: find_jobs_pune.sh','skill: nmap -sV -O 192.168.1.0/24'];
+let pi=0,ci=0,del=false;
+function startTyping(){(function t(){
+  const el=document.getElementById('tt');
+  if(!el)return;
+  const ph=phrases[pi];
+  if(!del){el.textContent=ph.slice(0,++ci);if(ci===ph.length){del=true;setTimeout(t,2200);return;}}
+  else{el.textContent=ph.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length;}}
+  setTimeout(t,del?35:75);
+})();}
+
+// ── THREE.JS — Ultra-Detailed Sphere ──
+function initThreeJS(){
+  const canvas=document.getElementById('tc');
+  if(!canvas)return;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setSize(340,340);renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(42,1,0.1,100);
+  camera.position.z=3.4;
+
+  // ── LAYER 1: Dense high-detail icosphere wireframe (outer shell)
+  const outerGeo=new THREE.IcosahedronGeometry(1.02,5);
+  const outerMat=new THREE.MeshBasicMaterial({color:0x00ff41,wireframe:true,transparent:true,opacity:0.07});
+  const outerMesh=new THREE.Mesh(outerGeo,outerMat);
+  scene.add(outerMesh);
+
+  // ── LAYER 2: Mid-density icosphere (counter-rotating, red tint) — removed, too noisy
+
+  // ── LAYER 3: Low-poly inner core (slowly pulsing)
+  const coreGeo=new THREE.IcosahedronGeometry(0.72,2);
+  const coreMat=new THREE.MeshBasicMaterial({color:0x00ff41,wireframe:true,transparent:true,opacity:0.14});
+  const coreMesh=new THREE.Mesh(coreGeo,coreMat);
+  scene.add(coreMesh);
+
+  // ── LAYER 4: Solid dark inner sphere (occlusion illusion)
+  const solidGeo=new THREE.SphereGeometry(0.70,32,32);
+  const solidMat=new THREE.MeshBasicMaterial({color:0x010801,transparent:true,opacity:0.95});
+  scene.add(new THREE.Mesh(solidGeo,solidMat));
+
+  // ── LAYER 5: Surface node points (bright dots scattered on sphere)
+  const nodeCount=48;
+  const nPos=new Float32Array(nodeCount*3);
+  const nData=[];
+  for(let i=0;i<nodeCount;i++){
+    const th=Math.random()*Math.PI*2;
+    const ph=Math.acos(2*Math.random()-1);
+    const x=Math.sin(ph)*Math.cos(th);
+    const y=Math.sin(ph)*Math.sin(th);
+    const z=Math.cos(ph);
+    nPos[i*3]=x;nPos[i*3+1]=y;nPos[i*3+2]=z;
+    nData.push({x,y,z});
+  }
+  const nGeo=new THREE.BufferGeometry();
+  nGeo.setAttribute('position',new THREE.BufferAttribute(nPos,3));
+  // Large glowing nodes
+  const bigNodeMat=new THREE.PointsMaterial({color:0x00ff41,size:0.055,transparent:true,opacity:1.0});
+  scene.add(new THREE.Points(nGeo,bigNodeMat));
+  // Tiny faint secondary dots
+  const smallNodeMat=new THREE.PointsMaterial({color:0x00ff41,size:0.022,transparent:true,opacity:0.45});
+  scene.add(new THREE.Points(nGeo,smallNodeMat));
+
+  // ── LAYER 6: Attack / connection lines between nodes (curved arcs)
+  const lineGroup=new THREE.Group();
+  scene.add(lineGroup);
+  const linePairs=[];
+  const numLines=22;
+  for(let i=0;i<numLines;i++){
+    const ai=Math.floor(Math.random()*nodeCount);
+    const bi=Math.floor(Math.random()*nodeCount);
+    if(ai===bi)continue;
+    const a=new THREE.Vector3(nData[ai].x,nData[ai].y,nData[ai].z);
+    const b=new THREE.Vector3(nData[bi].x,nData[bi].y,nData[bi].z);
+    // Build curved arc (lift midpoint above sphere surface)
+    const pts=[];
+    for(let t=0;t<=24;t++){
+      const p=new THREE.Vector3().lerpVectors(a,b,t/24);
+      const lift=1+Math.sin(Math.PI*t/24)*0.22;
+      p.normalize().multiplyScalar(lift);
+      pts.push(p);
+    }
+    const isAttack=Math.random()>0.45;
+    const lGeo=new THREE.BufferGeometry().setFromPoints(pts);
+    const lMat=new THREE.LineBasicMaterial({
+      color:isAttack?0xff2244:0x00ff41,
+      transparent:true,
+      opacity:isAttack?0.5:0.2
+    });
+    lineGroup.add(new THREE.Line(lGeo,lMat));
+    linePairs.push({mat:lMat,isAttack,phase:Math.random()*Math.PI*2});
+  }
+
+  // ── LAYER 7: Particle shells — two clean shells only
+  function makeParticleShell(count,rMin,rMax,color,size,opacity){
+    const pos=new Float32Array(count*3);
+    for(let i=0;i<count;i++){
+      const th=Math.random()*Math.PI*2;
+      const ph=Math.acos(2*Math.random()-1);
+      const r=rMin+Math.random()*(rMax-rMin);
+      pos[i*3]=r*Math.sin(ph)*Math.cos(th);
+      pos[i*3+1]=r*Math.sin(ph)*Math.sin(th);
+      pos[i*3+2]=r*Math.cos(ph);
+    }
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    return new THREE.Points(g,new THREE.PointsMaterial({color,size,transparent:true,opacity}));
+  }
+  const shell1=makeParticleShell(180,1.08,1.20,0x00ff41,0.015,0.45);
+  const shell2=makeParticleShell(100,1.28,1.48,0x00e5ff,0.010,0.18);
+  scene.add(shell1);scene.add(shell2);
+
+  // ── LAYER 8: 3 clean orbital rings
+  function addRing(radius,tubR,rotX,rotY,color,opacity){
+    const m=new THREE.Mesh(
+      new THREE.TorusGeometry(radius,tubR,2,160),
+      new THREE.MeshBasicMaterial({color,transparent:true,opacity})
+    );
+    m.rotation.x=rotX;m.rotation.y=rotY;
+    scene.add(m);return m;
+  }
+  const ring1=addRing(1.22,0.004, Math.PI/2,    0,       0x00ff41,0.38);
+  const ring2=addRing(1.32,0.003,-Math.PI/4,    Math.PI/5, 0xff2244,0.20);
+  const ring3=addRing(1.44,0.002, Math.PI/6,    Math.PI/3, 0x00e5ff,0.14);
+
+  // ── LAYER 9: Orbiting satellite dot on ring3
+  const satDot=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,8),new THREE.MeshBasicMaterial({color:0xff2244}));
+  scene.add(satDot);
+  // Second satellite (cyan)
+  const satDot2=new THREE.Mesh(new THREE.SphereGeometry(0.020,8,8),new THREE.MeshBasicMaterial({color:0x00e5ff}));
+  scene.add(satDot2);
+
+  // ── LAYER 10: Latitude/longitude grid lines (subtle)
+  const latLngGroup=new THREE.Group();
+  // Latitude lines
+  for(let lat=-75;lat<=75;lat+=30){
+    const r_lat=Math.cos(lat*Math.PI/180);
+    const y_lat=Math.sin(lat*Math.PI/180);
+    const latPts=[];
+    for(let lng=0;lng<=360;lng+=4){
+      latPts.push(new THREE.Vector3(r_lat*Math.cos(lng*Math.PI/180),y_lat,r_lat*Math.sin(lng*Math.PI/180)));
+    }
+    const latGeo=new THREE.BufferGeometry().setFromPoints(latPts);
+    latLngGroup.add(new THREE.Line(latGeo,new THREE.LineBasicMaterial({color:0x00ff41,transparent:true,opacity:0.07})));
+  }
+  // Longitude lines
+  for(let lng=0;lng<180;lng+=30){
+    const lngPts=[];
+    for(let lat=-90;lat<=90;lat+=3){
+      const r_lat=Math.cos(lat*Math.PI/180);
+      const y_lat=Math.sin(lat*Math.PI/180);
+      lngPts.push(new THREE.Vector3(r_lat*Math.cos(lng*Math.PI/180),y_lat,r_lat*Math.sin(lng*Math.PI/180)));
+    }
+    const lngGeo=new THREE.BufferGeometry().setFromPoints(lngPts);
+    latLngGroup.add(new THREE.Line(lngGeo,new THREE.LineBasicMaterial({color:0x00ff41,transparent:true,opacity:0.06})));
+  }
+  scene.add(latLngGroup);
+
+  // ── ANIMATION ──
+  let frame=0;
+  function animate(){
+    requestAnimationFrame(animate);frame++;
+    outerMesh.rotation.y+=0.0030;outerMesh.rotation.x+=0.0008;
+    coreMesh.rotation.y+=0.0060;coreMesh.rotation.x+=0.0015;
+    latLngGroup.rotation.y=outerMesh.rotation.y;
+    lineGroup.rotation.y=outerMesh.rotation.y;
+    lineGroup.rotation.x=outerMesh.rotation.x;
+    shell1.rotation.y+=0.0018;
+    shell2.rotation.y-=0.0010;shell2.rotation.x+=0.0005;
+    ring1.rotation.z+=0.006;
+    ring2.rotation.z+=0.009;
+    ring3.rotation.z-=0.003;
+    // Pulsing opacities
+    outerMat.opacity=0.05+Math.sin(frame*0.020)*0.025;
+    coreMat.opacity=0.10+Math.sin(frame*0.035)*0.06;
+    bigNodeMat.opacity=0.7+Math.sin(frame*0.04)*0.25;
+    // Orbiting satellite — ring2 plane
+    const sat1Angle=frame*0.025;
+    satDot.position.set(
+      1.32*Math.cos(sat1Angle),
+      1.32*Math.sin(sat1Angle)*Math.sin(-Math.PI/4),
+      1.32*Math.sin(sat1Angle)*Math.cos(-Math.PI/4)
+    );
+    const sat2Angle=frame*0.016+Math.PI;
+    satDot2.position.set(
+      1.44*Math.cos(sat2Angle)*Math.cos(Math.PI/6),
+      1.44*Math.sin(sat2Angle),
+      1.44*Math.cos(sat2Angle)*Math.sin(Math.PI/6)
+    );
+    linePairs.forEach(p=>{
+      p.mat.opacity=p.isAttack
+        ?(0.18+Math.sin(frame*0.07+p.phase)*0.28)
+        :(0.06+Math.sin(frame*0.022+p.phase)*0.10);
+    });
+    renderer.render(scene,camera);
+  }
+  animate();
+}
+
+// ── COUNT-UP STATS ──
+function startCounters(){
+  document.querySelectorAll('.snum[data-target]').forEach(el=>{
+    const target=+el.dataset.target;
+    const suffix=el.dataset.suffix||'';
+    const divide=el.dataset.divide?+el.dataset.divide:1;
+    let current=0;
+    const step=target/40;
+    const iv=setInterval(()=>{
+      current=Math.min(current+step,target);
+      el.textContent=(current/divide).toFixed(divide>1?1:0)+suffix;
+      if(current>=target)clearInterval(iv);
+    },40);
+  });
+}
+
+// ── SKILL BARS ON SCROLL ──
+let barsAnimated=false;
+const skillObs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting&&!barsAnimated){
+    barsAnimated=true;
+    document.querySelectorAll('.sbfill').forEach(b=>{b.style.width=b.dataset.w+'%';});
+  }
+},{threshold:0.3});
+const skillSec=document.getElementById('skills');
+if(skillSec)skillObs.observe(skillSec);
+
+// ── RADAR CHART ──
+function drawRadar(){
+  const c=document.getElementById('rcanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=c.width,H=c.height,cx2=W/2,cy2=H/2,R=Math.min(W,H)*0.38;
+  const labels=['Web Pentest','Network','OSINT/Recon','Mobile Sec','SIEM/SOC','Scripting','Reporting'];
+  const vals=[0.88,0.82,0.80,0.75,0.72,0.80,0.85];
+  const N=labels.length;
+  ctx.clearRect(0,0,W,H);
+
+  // Grid rings
+  for(let r=1;r<=5;r++){
+    ctx.beginPath();
+    for(let i=0;i<N;i++){
+      const a=i*(2*Math.PI/N)-Math.PI/2;
+      const x=cx2+Math.cos(a)*R*(r/5);
+      const y=cy2+Math.sin(a)*R*(r/5);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=`rgba(0,255,65,${0.06+r*0.02})`;ctx.lineWidth=1;ctx.stroke();
+  }
+  // Axes
+  for(let i=0;i<N;i++){
+    const a=i*(2*Math.PI/N)-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(cx2,cy2);
+    ctx.lineTo(cx2+Math.cos(a)*R,cy2+Math.sin(a)*R);
+    ctx.strokeStyle='rgba(0,255,65,0.12)';ctx.stroke();
+  }
+  // Data fill
+  ctx.beginPath();
+  for(let i=0;i<N;i++){
+    const a=i*(2*Math.PI/N)-Math.PI/2;
+    const x=cx2+Math.cos(a)*R*vals[i];
+    const y=cy2+Math.sin(a)*R*vals[i];
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle='rgba(0,255,65,0.08)';ctx.fill();
+  ctx.strokeStyle='rgba(0,255,65,0.6)';ctx.lineWidth=1.5;ctx.stroke();
+  // Dots
+  for(let i=0;i<N;i++){
+    const a=i*(2*Math.PI/N)-Math.PI/2;
+    const x=cx2+Math.cos(a)*R*vals[i];
+    const y=cy2+Math.sin(a)*R*vals[i];
+    ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);
+    ctx.fillStyle='#00ff41';ctx.fill();
+    ctx.shadowBlur=8;ctx.shadowColor='#00ff41';ctx.fill();ctx.shadowBlur=0;
+  }
+  // Labels
+  ctx.font='10px Share Tech Mono';ctx.fillStyle='rgba(90,138,90,0.9)';ctx.textAlign='center';
+  for(let i=0;i<N;i++){
+    const a=i*(2*Math.PI/N)-Math.PI/2;
+    const lx=cx2+Math.cos(a)*(R+22);
+    const ly=cy2+Math.sin(a)*(R+22);
+    ctx.fillText(labels[i],lx,ly+4);
+  }
+  // Center label
+  ctx.font='9px Orbitron,monospace';ctx.fillStyle='rgba(0,255,65,0.4)';ctx.textAlign='center';
+  ctx.fillText('SKILL MAP',cx2,cy2+4);
+}
+document.fonts.ready.then(drawRadar);
+
+// ── SCROLL FADE IN ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});
+},{threshold:0.08});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+
+// ── MOBILE NAV ──
+function toggleMobileNav(){
+  document.getElementById('hbg').classList.toggle('open');
+  document.getElementById('mnav').classList.toggle('open');
+}
+
+// ── CONTACT FORM (Formspree) ──
+// ➜ Steps to activate:
+//   1. Go to https://formspree.io → create free account
+//   2. Click "New Form" → copy your Form ID (looks like: xpwzabcd)
+//   3. Replace YOUR_FORM_ID below with your actual ID
+//   4. That's it — submissions go straight to nawazmuztaba000@gmail.com
+const FORMSPREE_ID = 'YOUR_FORM_ID'; // <-- replace this
+
+function sendMsg(){
+  const btn=document.getElementById('sendBtn');
+  const name=document.getElementById('cname').value.trim();
+  const email=document.getElementById('cemail').value.trim();
+  const msg=document.getElementById('cmsg').value.trim();
+
+  // Validation
+  if(!name||!email||!msg){
+    btn.textContent='⚠ FILL ALL FIELDS';
+    btn.style.borderColor='var(--r)';btn.style.color='var(--r)';
+    setTimeout(()=>{btn.textContent='SEND MESSAGE';btn.style.borderColor='';btn.style.color='';},2200);
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    btn.textContent='⚠ INVALID EMAIL';
+    btn.style.borderColor='var(--r)';btn.style.color='var(--r)';
+    setTimeout(()=>{btn.textContent='SEND MESSAGE';btn.style.borderColor='';btn.style.color='';},2200);
+    return;
+  }
+
+  btn.textContent='TRANSMITTING...';btn.disabled=true;
+
+  if(FORMSPREE_ID==='YOUR_FORM_ID'){
+    // Fallback: open mailto if Formspree not yet configured
+    const mailtoUrl=`mailto:nawazmuztaba000@gmail.com?subject=Portfolio Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+msg)}`;
+    window.location.href=mailtoUrl;
+    setTimeout(()=>{
+      btn.textContent='OPENED MAIL CLIENT ✓';btn.disabled=false;
+      document.getElementById('fsuccess').style.display='block';
+      document.getElementById('cname').value='';
+      document.getElementById('cemail').value='';
+      document.getElementById('cmsg').value='';
+    },800);
+    return;
+  }
+
+  // Formspree fetch
+  fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({name,email,message:msg})
+  })
+  .then(res=>{
+    if(res.ok){
+      btn.textContent='MESSAGE SENT ✓';btn.disabled=false;
+      btn.style.borderColor='var(--g)';btn.style.color='var(--g)';
+      document.getElementById('fsuccess').style.display='block';
+      document.getElementById('cname').value='';
+      document.getElementById('cemail').value='';
+      document.getElementById('cmsg').value='';
+    } else {
+      throw new Error('Server error');
+    }
+  })
+  .catch(()=>{
+    btn.textContent='ERROR — TRY AGAIN';btn.disabled=false;
+    btn.style.borderColor='var(--r)';btn.style.color='var(--r)';
+    setTimeout(()=>{btn.textContent='SEND MESSAGE';btn.style.borderColor='';btn.style.color='';},3000);
+  });
+  // ── end Formspree
+}
+</script>
+</body>
+</html>
