@@ -101,6 +101,7 @@ if (host && canvas && button) {
         "float rim=pow(1.-max(dot(normalize(normalEye),normalize(eyeVector)),0.),2.8);",
         "col+=vec3(.09,.56,.76)*rim*.50;",
         "gl_FragColor=vec4(col,1.);",
+        "#include <colorspace_fragment>",
         "}"
       ].join("\n")
     }));
@@ -119,7 +120,9 @@ if (host && canvas && button) {
         "varying vec3 n; varying vec3 v;",
         "void main(){float edge=1.-max(dot(normalize(n),normalize(v)),0.);",
         "float alpha=pow(edge,2.45)*.81;",
-        "gl_FragColor=vec4(.17,.88,1.,alpha);}"
+        "gl_FragColor=vec4(.17,.88,1.,alpha);",
+        "#include <colorspace_fragment>",
+        "}"
       ].join("\n"),
       transparent:true,depthWrite:false,blending:THREE.AdditiveBlending
     }));
