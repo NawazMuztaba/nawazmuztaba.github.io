@@ -93,9 +93,9 @@ if (host && canvas && button) {
         "varying vec3 eyeVector;",
         "void main(){",
         "vec3 g=texture2D(earthMap,texCoord).rgb;",
-        "float land=smoothstep(.12,.28,g.g);",
+        "float land=smoothstep(.025,.09,g.g);",
         "vec3 ocean=vec3(.013,.090,.140);",
-        "vec3 mapped=g*vec3(1.54,2.05,1.90)+vec3(.015,.13,.115);",
+        "vec3 mapped=g*vec3(1.80,3.00,2.40)+vec3(.018,.14,.10);",
         "float light=.59+.41*max(dot(normalize(normalEye),normalize(vec3(-.38,.32,.87))),0.);",
         "vec3 col=mix(ocean,mapped,land*.97)*light;",
         "float rim=pow(1.-max(dot(normalize(normalEye),normalize(eyeVector)),0.),2.8);",
@@ -291,6 +291,7 @@ if (host && canvas && button) {
     frame=requestAnimationFrame(tick);
   }
   function sync(){
+    host.classList.toggle("paused",!active());
     if(!active()){
       if(frame)cancelAnimationFrame(frame);
       frame=0;clock.stop();return;
