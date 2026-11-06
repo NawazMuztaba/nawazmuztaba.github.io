@@ -235,3 +235,6 @@ h2 span{color:var(--cyan)}
 @media(prefers-reduced-motion:reduce){
   .globe-stage::before{animation:none;opacity:.3}
 }
+
+/* The Pause button stops both WebGL motion and the CSS radar sweep. */
+.hero-visual.paused .globe-stage::before{animation-play-state:paused}
