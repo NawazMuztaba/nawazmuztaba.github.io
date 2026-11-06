@@ -12,7 +12,7 @@ A legitimate user asks an AI agent to summarize a fictional employee handbook. A
 
 ### Architecture
 
-\`\`\`mermaid
+```mermaid
 flowchart TD
     U[Legitimate user: summarize handbook] --> M[Local Qwen via Ollama]
     D[Lower-trust handbook paragraph] --> M
@@ -23,7 +23,7 @@ flowchart TD
     S --> A[Committed local read-audit record]
     X --> E[Denial evidence]
     G --> W[Synthetic Watch policy-event correlation]
-\`\`\`
+```
 
 ## What was observed
 
