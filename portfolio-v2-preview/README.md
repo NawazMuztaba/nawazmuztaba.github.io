@@ -50,3 +50,21 @@ This branch is not configured as the production GitHub Pages publishing source; 
 - [ ] Updated content independently verified; no private sources leaked
 - [ ] LCP/INP/CLS/transfer size and GPU profile measured
 - [ ] Owner approves prototype and review PR before any main-branch replacement
+
+
+## Globe V2.2 design checkpoint — 2026-11-07
+
+**Owner feedback:** Initial WebGL globe was rejected as flat, too dark and unlike the approved concept. The owner explicitly wants a **recognizable detailed Earth** rather than a pure wireframe. Keep the positive motion traits of the original homepage (fast changing red signal orbits), plus premium cyan/emerald light, rim glow, network arcs, nodes, holographic base and a roughly 10–15% smaller hero footprint. This V2.2 replaces V2.1 globe code inside this same prototype PR; the public homepage remains unchanged.
+
+### Implemented V2.2 changes
+- Updated `globe.js`: custom geographic shader with correct sRGB texture/output handling, atmospheric Fresnel rim, visibly illuminated land, glowing node sprites, animated red/cyan/green orbit streaks, moving signal pulses, sparse construction grid, and holographic Three.js base rings.
+- Updated `styles.css`: compact stage, CSS red radar sweep, brighter fallbacks/haze, layered hologram ring, improved control of motion. Pause button halts WebGL **and** CSS radar. Mobile radar is static.
+- Updated `index.html`: AgentCheck public case-study URL is absolute and works when preview is served from the `portfolio-v2-preview` folder.
+- Preserved existing `earth-texture.svg` and `globe-fallback.svg` Natural Earth/public-domain assets; no private project source or user resumes published.
+
+### Evidence and remaining review
+- **19/19 static checks** passed on current V2.2 branch at this checkpoint: syntax via JavaScript parser, asset presence, source guardrails and CSS/JS motion hooks. These are **not browser/render tests**.
+- Need **actual Chrome WebGL screenshot and runtime validation** (shader compilation, texture visibility, motion, pause/resume, drag, console errors), followed by mobile/reduced-motion and performance checks.
+- Note the old downloaded ZIP on the owner's Windows laptop does **not auto-update** when GitHub branch changes. Download a fresh ZIP from the branch and extract again before testing V2.2.
+- When serving **inside** the `portfolio-v2-preview` directory using `python -m http.server 8000`, open `http://localhost:8000/` (NOT `/portfolio-v2-preview/`). When serving from repo root use `http://localhost:8000/portfolio-v2-preview/`.
+- **DO NOT MERGE PR #4 / DO NOT PUBLISH** until owner reviews a real screenshot. No release decision has been made.
