@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#030f15">
+<meta name="description" content="Reference-faithful animated holographic Earth for the APEX cybersecurity portfolio">
+<title>APEX Globe V3 — Reference Fidelity Motion Study</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="motion.js"></script>
+</head>
+<body>
+<a class="skip" href="#demo">Skip to globe</a>
+<div class="layout">
+<header class="topbar"><div class="identity"><strong><span>N</span>M</strong><div>APEX / PORTFOLIO<small>VISUAL SYSTEM — GLOBE V3</small></div></div><span class="top-status">● REFERENCE-FIDELITY / MOTION STUDY</span></header>
+<main id="demo">
+<section class="intro">
+<p class="eyebrow">CINEMATIC EARTH / MOTION STUDY</p>
+<h1>The exact Earth.<br><em>Now alive.</em></h1>
+<p>The original art direction stays intact. Orbital signals, radar highlights and security nodes move independently, with no continuous WebGL rendering loop.</p>
+</section>
+<section class="experience" aria-label="Reference-faithful animated cybersecurity globe">
+<div class="scene" id="scene">
+<img class="artwork" width="1448" height="1086" fetchpriority="high" decoding="async" src="assets/globe-reference.webp" alt="Luminous holographic Earth with dotted glowing continents, cyan atmospheric glow, red orbital trails, network mesh and circular platform">
+<svg class="signals" id="signal-overlay" viewBox="0 0 1448 1086" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+<defs>
+<filter id="glow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<path id="red-main" d="M285 650 C400 600 590 586 755 535 S1110 466 1198 355 C1230 295 1180 250 1134 230"/>
+<path id="red-high" d="M345 435 C470 272 635 212 812 173 C970 138 1100 154 1132 231"/>
+<path id="red-loop" d="M285 550 C237 405 376 240 580 176 C804 110 1088 171 1159 359 C1225 524 1090 661 873 714"/>
+<path id="green-signal" d="M210 506 C365 322 570 310 730 440 C876 549 1095 472 1258 387"/>
+</defs>
+<g filter="url(#glow)">
+<circle r="5.4" fill="#ffffff" stroke="#ff3d61" stroke-width="3"><animateMotion dur="3.7s" repeatCount="indefinite"><mpath href="#red-main"/></animateMotion></circle>
+<circle r="4" fill="#ff9cac"><animateMotion dur="6.4s" repeatCount="indefinite"><mpath href="#red-high"/></animateMotion></circle>
+<circle r="4.8" fill="#ff375c"><animateMotion dur="8.8s" repeatCount="indefinite"><mpath href="#red-loop"/></animateMotion></circle>
+<circle r="3.7" fill="#85fff0"><animateMotion dur="9.5s" repeatCount="indefinite"><mpath href="#green-signal"/></animateMotion></circle>
+</g>
+<g class="nodes" filter="url(#glow)">
+<circle class="node n1" cx="520" cy="302" r="4.5" fill="#afffe7"/>
+<circle class="node n2" cx="700" cy="389" r="4.5" fill="#9fffc6"/>
+<circle class="node n3" cx="873" cy="561" r="4" fill="#ff9aaf"/>
+<circle class="node n4" cx="514" cy="518" r="4" fill="#9ffff1"/>
+<circle class="node n5" cx="962" cy="580" r="4" fill="#a3ffdd"/>
+</g>
+<g class="platform-sweep"><ellipse cx="733" cy="841" rx="386" ry="52" fill="none" stroke="#4affef" stroke-opacity=".21" stroke-width="2" stroke-dasharray="18 90 27 90"/></g>
+</svg>
+</div>
+<div class="controls"><button id="motion-toggle" type="button" aria-pressed="true">Pause effects</button><span>ILLUSTRATIVE SIGNALS · NOT LIVE NETWORK DATA</span><a href="assets/globe-reference-original.png" target="_blank" rel="noopener noreferrer">View original ↗</a></div>
+</section>
+</main>
+<footer>APEX Portfolio 2.0 · Visual approval prototype · Pixel-matched source artwork; physical 360° Earth rotation not implemented.</footer>
+</div>
+</body>
+</html>
