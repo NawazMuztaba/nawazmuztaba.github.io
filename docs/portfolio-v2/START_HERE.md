@@ -56,3 +56,14 @@ Evolve the existing GitHub Pages site at https://nawazmuztaba.github.io/ into a 
 
 ## NEXT CHAT — copy this exactly
 Act as Principal Cybersecurity Portfolio Architect, Technical UX Lead, and Release QA Owner for APEX Portfolio 2.0. First read all documentation in GitHub repository NawazMuztaba/nawazmuztaba.github.io at branch docs/portfolio-v2-continuity-20261107, starting with docs/portfolio-v2/START_HERE.md, then read the other linked files. Inspect current main and PR #2 read-only; reconcile changes since last audit, don't rely on memories alone. Preserve approved Direction A — Premium Cybersecurity Engineering with a refined, luminous interactive 3D globe. Explicitly identify verified facts, unverified content, and visual-reference limitations. Continue from Phase 3 V2.2 prototype in draft PR #4: inspect current globe.js/styles.css and the owner's updated screenshot before any further styling. Do not change main or the AgentCheck study; do not merge or deploy anything without my explicit release approval. Work in small professional steps and leave durable GitHub documentation for the next handoff.
+
+## 2026-11-07 — LATEST OWNER DECISION: RESTORE ORIGINAL GLOBE (PR #6)
+- Owner rejected Globe V2.2/V3 visuals and requested **exact original globe code from the uploaded legacy HTML**, placed within premium Portfolio V2. **This supersedes V2.2/V3 globe design for the active implementation.**
+- **Draft PR #6:** https://github.com/NawazMuztaba/nawazmuztaba.github.io/pull/6 targets `feat/portfolio-v2-prototype-20261107`, not main.
+- Feature branch: `feat/portfolio-v2-original-globe-20261107`.
+- Four changed files all under `portfolio-v2-preview/`: original-globe.js, index.html, styles.css, ORIGINAL_GLOBE_INTEGRATION.md.
+- Exact legacy 185-line `initThreeJS()` copied byte-for-byte (function SHA-256: `cb92ccf9f7ce14fff1e5237a87d4586afaf4ce1051f3cf3fa7a3db23c77ae1a9`). Original THREE r128 CDN, 340x340 canvas, 3 rotating HTML rings 360/400/440, green wireframe, red/cyan satellite motion and original speeds preserved. Scaled only as a unit for mobile.
+- 14/14 static integration checks passed, **no actual browser or FPS measurement in this turn**; await owner's local screenshot before any merge. Original frame loop has no pause/reduced-motion feature: faithful recreation, not a performance optimization claim.
+- To preview: download branch ZIP, extract, open `portfolio-v2-preview`, run `python -m http.server 8000`, browse `http://localhost:8000/`.
+- Important: owner's old globe is an **abstract wireframe cyber sphere**, not detailed geographic Earth. Do not insert V3 flat picture or V2.2 Earth shader into PR #6 unless owner changes direction.
+- Main and published AgentCheck untouched. Keep draft PR #2, #3, #4, #5, #6 unmerged unless explicitly authorized.
