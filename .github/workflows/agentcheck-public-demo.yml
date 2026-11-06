@@ -1,0 +1,39 @@
+name: AgentCheck public demo | Python stdlib tests
+
+on:
+  pull_request:
+    paths:
+      - 'projects/agentcheck-v2/**'
+      - '.github/workflows/agentcheck-public-demo.yml'
+  push:
+    paths:
+      - 'projects/agentcheck-v2/**'
+      - '.github/workflows/agentcheck-public-demo.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: synthetic Guard demo (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - name: Checkout public case study
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Compile standalone public demo
+        run: python -m compileall -q projects/agentcheck-v2/demo
+      - name: Run isolated synthetic authorization boundary tests
+        run: python -m unittest discover -s projects/agentcheck-v2/demo -p 'test_guard_demo.py' -v
+      - name: Verify fixed forbidden-request CLI output
+        run: |
+          python projects/agentcheck-v2/demo/guard_demo.py --scenario forced-denial > /tmp/agentcheck-public.json
+          python -c 'import json; p=json.load(open("/tmp/agentcheck-public.json")); assert p["guard_decision"] == "DENY" and not p["actual_handler_invoked"] and p["reads_after"] == 0'
