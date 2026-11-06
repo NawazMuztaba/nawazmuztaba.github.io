@@ -1,6 +1,7 @@
-/* The owner's ORIGINAL portfolio globe, copied verbatim from the uploaded HTML.
- * Original script used THREE r128 and a fixed 340 × 340 canvas.
- * Only the DOMContentLoaded integration adapter below is new.
+/* APEX Portfolio V2 Obsidian Aurora review experiment.
+ * Same original Three.js r128 geometry, particle counts, orbit positions,
+ * camera and frame-by-frame animation speeds. Only material color values
+ * differ from the verbatim original in draft PR #6. No live release.
  */
 function initThreeJS(){
   const canvas=document.getElementById('tc');
@@ -13,7 +14,7 @@ function initThreeJS(){
 
   // ── LAYER 1: Dense high-detail icosphere wireframe (outer shell)
   const outerGeo=new THREE.IcosahedronGeometry(1.02,5);
-  const outerMat=new THREE.MeshBasicMaterial({color:0x00ff41,wireframe:true,transparent:true,opacity:0.07});
+  const outerMat=new THREE.MeshBasicMaterial({color:0x34e2a8,wireframe:true,transparent:true,opacity:0.07});
   const outerMesh=new THREE.Mesh(outerGeo,outerMat);
   scene.add(outerMesh);
 
@@ -21,13 +22,13 @@ function initThreeJS(){
 
   // ── LAYER 3: Low-poly inner core (slowly pulsing)
   const coreGeo=new THREE.IcosahedronGeometry(0.72,2);
-  const coreMat=new THREE.MeshBasicMaterial({color:0x00ff41,wireframe:true,transparent:true,opacity:0.14});
+  const coreMat=new THREE.MeshBasicMaterial({color:0x34e2a8,wireframe:true,transparent:true,opacity:0.14});
   const coreMesh=new THREE.Mesh(coreGeo,coreMat);
   scene.add(coreMesh);
 
   // ── LAYER 4: Solid dark inner sphere (occlusion illusion)
   const solidGeo=new THREE.SphereGeometry(0.70,32,32);
-  const solidMat=new THREE.MeshBasicMaterial({color:0x010801,transparent:true,opacity:0.95});
+  const solidMat=new THREE.MeshBasicMaterial({color:0x040b14,transparent:true,opacity:0.95});
   scene.add(new THREE.Mesh(solidGeo,solidMat));
 
   // ── LAYER 5: Surface node points (bright dots scattered on sphere)
@@ -46,10 +47,10 @@ function initThreeJS(){
   const nGeo=new THREE.BufferGeometry();
   nGeo.setAttribute('position',new THREE.BufferAttribute(nPos,3));
   // Large glowing nodes
-  const bigNodeMat=new THREE.PointsMaterial({color:0x00ff41,size:0.055,transparent:true,opacity:1.0});
+  const bigNodeMat=new THREE.PointsMaterial({color:0xa7fff0,size:0.055,transparent:true,opacity:1.0});
   scene.add(new THREE.Points(nGeo,bigNodeMat));
   // Tiny faint secondary dots
-  const smallNodeMat=new THREE.PointsMaterial({color:0x00ff41,size:0.022,transparent:true,opacity:0.45});
+  const smallNodeMat=new THREE.PointsMaterial({color:0x34e2a8,size:0.022,transparent:true,opacity:0.45});
   scene.add(new THREE.Points(nGeo,smallNodeMat));
 
   // ── LAYER 6: Attack / connection lines between nodes (curved arcs)
@@ -74,7 +75,7 @@ function initThreeJS(){
     const isAttack=Math.random()>0.45;
     const lGeo=new THREE.BufferGeometry().setFromPoints(pts);
     const lMat=new THREE.LineBasicMaterial({
-      color:isAttack?0xff2244:0x00ff41,
+      color:isAttack?0xff4d6d:0x34e2a8,
       transparent:true,
       opacity:isAttack?0.5:0.2
     });
@@ -97,8 +98,8 @@ function initThreeJS(){
     g.setAttribute('position',new THREE.BufferAttribute(pos,3));
     return new THREE.Points(g,new THREE.PointsMaterial({color,size,transparent:true,opacity}));
   }
-  const shell1=makeParticleShell(180,1.08,1.20,0x00ff41,0.015,0.45);
-  const shell2=makeParticleShell(100,1.28,1.48,0x00e5ff,0.010,0.18);
+  const shell1=makeParticleShell(180,1.08,1.20,0x34e2a8,0.015,0.45);
+  const shell2=makeParticleShell(100,1.28,1.48,0x49ddf5,0.010,0.18);
   scene.add(shell1);scene.add(shell2);
 
   // ── LAYER 8: 3 clean orbital rings
@@ -110,15 +111,15 @@ function initThreeJS(){
     m.rotation.x=rotX;m.rotation.y=rotY;
     scene.add(m);return m;
   }
-  const ring1=addRing(1.22,0.004, Math.PI/2,    0,       0x00ff41,0.38);
-  const ring2=addRing(1.32,0.003,-Math.PI/4,    Math.PI/5, 0xff2244,0.20);
-  const ring3=addRing(1.44,0.002, Math.PI/6,    Math.PI/3, 0x00e5ff,0.14);
+  const ring1=addRing(1.22,0.004, Math.PI/2,    0,       0x34e2a8,0.38);
+  const ring2=addRing(1.32,0.003,-Math.PI/4,    Math.PI/5, 0xff4d6d,0.20);
+  const ring3=addRing(1.44,0.002, Math.PI/6,    Math.PI/3, 0x49ddf5,0.14);
 
   // ── LAYER 9: Orbiting satellite dot on ring3
-  const satDot=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,8),new THREE.MeshBasicMaterial({color:0xff2244}));
+  const satDot=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,8),new THREE.MeshBasicMaterial({color:0xff4d6d}));
   scene.add(satDot);
   // Second satellite (cyan)
-  const satDot2=new THREE.Mesh(new THREE.SphereGeometry(0.020,8,8),new THREE.MeshBasicMaterial({color:0x00e5ff}));
+  const satDot2=new THREE.Mesh(new THREE.SphereGeometry(0.020,8,8),new THREE.MeshBasicMaterial({color:0x49ddf5}));
   scene.add(satDot2);
 
   // ── LAYER 10: Latitude/longitude grid lines (subtle)
@@ -132,7 +133,7 @@ function initThreeJS(){
       latPts.push(new THREE.Vector3(r_lat*Math.cos(lng*Math.PI/180),y_lat,r_lat*Math.sin(lng*Math.PI/180)));
     }
     const latGeo=new THREE.BufferGeometry().setFromPoints(latPts);
-    latLngGroup.add(new THREE.Line(latGeo,new THREE.LineBasicMaterial({color:0x00ff41,transparent:true,opacity:0.07})));
+    latLngGroup.add(new THREE.Line(latGeo,new THREE.LineBasicMaterial({color:0x34e2a8,transparent:true,opacity:0.07})));
   }
   // Longitude lines
   for(let lng=0;lng<180;lng+=30){
@@ -143,7 +144,7 @@ function initThreeJS(){
       lngPts.push(new THREE.Vector3(r_lat*Math.cos(lng*Math.PI/180),y_lat,r_lat*Math.sin(lng*Math.PI/180)));
     }
     const lngGeo=new THREE.BufferGeometry().setFromPoints(lngPts);
-    latLngGroup.add(new THREE.Line(lngGeo,new THREE.LineBasicMaterial({color:0x00ff41,transparent:true,opacity:0.06})));
+    latLngGroup.add(new THREE.Line(lngGeo,new THREE.LineBasicMaterial({color:0x34e2a8,transparent:true,opacity:0.06})));
   }
   scene.add(latLngGroup);
 
