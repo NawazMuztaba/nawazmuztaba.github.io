@@ -313,3 +313,68 @@ h2 span{color:var(--cyan)}
 @media(prefers-reduced-motion:reduce){
   .legacy-hero .cring{animation:none!important}
 }
+
+
+/* ==========================================================================
+   PORTFOLIO V2 / REVIEW A — Obsidian Aurora + corrected right-column layout
+   Rollback: compare with parent branch feat/portfolio-v2-original-globe-20261107.
+   Geometry/motion remain in original-globe.js; no new animation layer.
+   ========================================================================== */
+@media (min-width:901px){
+  .hero.shell{
+    display:grid;
+    grid-template-columns:minmax(0,1.13fr) minmax(360px,.87fr);
+    column-gap:clamp(18px,2vw,34px);
+    align-items:center;
+    min-height:590px;
+  }
+  .hero .hero-copy{
+    grid-column:1;
+    grid-row:1;
+    min-width:0;
+  }
+  .hero .legacy-hero{
+    grid-column:2;
+    grid-row:1;
+    justify-self:end;
+    align-self:center;
+    margin:0;
+  }
+  .hero h1{
+    font-size:clamp(49px,5vw,75px);
+    white-space:normal;
+    line-height:1.03;
+  }
+}
+@media (max-width:900px){
+  .hero.shell{display:grid;grid-template-columns:minmax(0,1fr);row-gap:8px}
+  .hero .hero-copy{grid-column:1}
+  .hero .legacy-hero{grid-column:1;justify-self:center;margin:0 auto}
+}
+/* Ring motion unchanged; only richer colors and subtle visibility upgrades. */
+.hero .legacy-hero .cring:nth-child(1){
+  border-color:rgba(52,226,168,.21);
+}
+.hero .legacy-hero .cring:nth-child(2){
+  border-color:rgba(73,221,245,.095);
+}
+.hero .legacy-hero .cring:nth-child(3){
+  border-color:rgba(167,255,240,.08);
+}
+.hero .legacy-hero .original-globe{
+  isolation:isolate;
+}
+.hero .legacy-hero .original-globe::before{
+  content:"";
+  position:absolute;
+  inset:48px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle at 38% 34%,
+    rgba(49,229,226,.09) 0%,
+    rgba(52,226,168,.045) 38%,
+    rgba(7,17,29,0) 73%);
+}
+@media(max-width:740px){
+  .hero.shell .hero-copy{padding-top:34px}
+}
