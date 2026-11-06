@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111D">
+  <meta name="description" content="Nawaz Muztaba — SOC operations, detection automation, and AI-agent security research. Explore technical work and connect.">
+  <meta property="og:title" content="Nawaz Muztaba | Cybersecurity Engineering">
+  <meta property="og:description" content="I investigate threats. I build safer systems.">
+  <title>Nawaz Muztaba | Cybersecurity Engineering — Portfolio V2 Prototype</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2307111d'/%3E%3Cpath d='M12 45V20l12 15 12-15v25M43 45V20l9 12 9-12v25' stroke='%2319d99a' stroke-width='5' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./ui.js"></script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js"}}</script>
+  <script type="module" src="./globe.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell nav-inner">
+      <a class="brand" href="#top" aria-label="Nawaz Muztaba — home"><span class="brand-mark">N<span>M</span></span><span class="brand-copy"><b>Nawaz Muztaba</b><small>CYBERSECURITY ENGINEERING</small></span></a>
+      <button class="menu-button" id="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-lines" aria-hidden="true">☰</span><span class="sr-only">Toggle navigation</span></button>
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+        <a href="#projects">Work</a><a href="#experience">Experience</a><a href="#about">About</a><a href="#contact">Contact</a>
+        <a class="nav-resume" href="mailto:nawazmuztaba000@gmail.com?subject=Resume%20request%20from%20portfolio">Request resume <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-corner" aria-hidden="true"></span>SOC OPERATIONS <span>/</span> AI SECURITY <span>/</span> SECURITY ENGINEERING</div>
+        <p class="pretitle">RESEARCH · ENGINEERING · SECURITY OPERATIONS</p>
+        <h1 id="hero-title">Nawaz <span>Muztaba</span></h1>
+        <p class="hero-statement">I investigate threats. I build <strong>safer systems.</strong></p>
+        <p class="hero-lead">SOC practitioner working across alert investigation, detection automation, and research into safer AI-agent actions.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#projects">Explore projects <span aria-hidden="true">→</span></a><a class="button button-outline" href="mailto:nawazmuztaba000@gmail.com?subject=Resume%20request%20from%20portfolio">Request resume <span aria-hidden="true">↗</span></a></div>
+        <ul class="skill-strip" aria-label="Key technologies"><li>Rapid7 InsightIDR</li><li>SentinelOne</li><li>Python</li><li>FortiSIEM <small>(learning)</small></li></ul>
+      </div>
+      <div class="hero-visual" data-globe>
+        <div class="globe-haze" aria-hidden="true"></div>
+        <div class="globe-stage" aria-hidden="true">
+          <img class="globe-fallback" src="./assets/globe-fallback.svg" alt="" width="640" height="640" fetchpriority="low">
+          <canvas class="globe-canvas" id="globe-canvas" aria-hidden="true"></canvas>
+        </div>
+        <div class="globe-rim" aria-hidden="true"></div>
+        <div class="globe-label label-one"><span aria-hidden="true">◇</span> SOC OPERATIONS</div>
+        <div class="globe-label label-two"><span aria-hidden="true">⌘</span> AI-AGENT SECURITY</div>
+        <div class="globe-label label-three"><span aria-hidden="true">◎</span> DETECTION &amp; AUTHORIZATION</div>
+        <div class="globe-caption">ILLUSTRATIVE SECURITY NETWORK · NOT LIVE TELEMETRY</div>
+        <button class="globe-control" id="globe-pause" type="button" hidden aria-pressed="false">Pause animation</button>
+      </div>
+    </section>
+
+    <section class="work-section" id="projects" aria-labelledby="projects-title">
+      <div class="shell">
+        <div class="section-head"><div><p class="section-kicker">01 / SELECTED WORK</p><h2 id="projects-title">Selected <span>Work</span></h2></div><p class="section-aside">RESEARCH · DETECTION · OFFENSIVE SECURITY</p></div>
+        <div class="project-grid">
+          <article class="project-card accent-green">
+            <div class="project-visual visual-agent"><span class="visual-grid"></span><span class="device-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 8 78 20v28c0 19-13 32-30 41C31 80 18 67 18 48V20Z" fill="none" stroke="currentColor" stroke-width="4"/><rect x="32" y="34" width="32" height="25" rx="6" fill="none" stroke="currentColor" stroke-width="3"/><path d="M48 28v6m0-10v-5m-9 28h2m14 0h2" stroke="currentColor" stroke-width="3"/><circle cx="48" cy="18" r="3" fill="currentColor"/></svg></span></div>
+            <div class="project-body"><div class="project-topline">AI SECURITY / AUTHORIZATION <span>01</span></div><h3>AgentCheck V2 Alpha</h3><p>Researching indirect prompt injection and an independent application Guard that validates locally simulated tool requests before execution.</p><ul class="tech-tags"><li>Python</li><li>Qwen / Ollama</li><li>SQLite</li></ul><a class="project-link" href="../projects/agentcheck-v2/">Read technical case study <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="project-card accent-cyan">
+            <div class="project-visual visual-soc"><span class="visual-grid"></span><span class="device-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><rect x="14" y="18" width="68" height="47" rx="5" stroke="currentColor" fill="none" stroke-width="4"/><path d="M24 53 36 43l11 5 12-19 13 8" fill="none" stroke="currentColor" stroke-width="3"/><path d="M35 79h26M48 65v14" stroke="currentColor" stroke-width="4"/></svg></span></div>
+            <div class="project-body"><div class="project-topline">SOC / DETECTION AUTOMATION <span>02</span></div><h3>Intelligent SOC Automation</h3><p>A Python-based, SIEM-style project for simulated log monitoring, attack-pattern correlation, and structured security alerts.</p><ul class="tech-tags"><li>Python</li><li>Redis</li><li>MITRE ATT&amp;CK</li></ul><a class="project-link" href="https://github.com/NawazMuztaba/intelligent-soc-automation" target="_blank" rel="noopener noreferrer">View public repository <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="project-card accent-green">
+            <div class="project-visual visual-vapt"><span class="visual-grid"></span><span class="device-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 13 79 31 48 50 17 31Z M17 42l31 18 31-18 M17 54l31 18 31-18" stroke="currentColor" stroke-width="4" fill="none" stroke-linejoin="round"/><circle cx="48" cy="31" r="5" fill="currentColor"/></svg></span></div>
+            <div class="project-body"><div class="project-topline">VAPT / ATTACK SURFACE <span>03</span></div><h3>Sentinel-X</h3><p>Modular Python tooling for reconnaissance, attack-surface review, vulnerability assessment, and repeatable reporting.</p><ul class="tech-tags"><li>Python</li><li>Nmap</li><li>OpenVAS</li></ul><a class="project-link" href="https://github.com/NawazMuztaba/Sentinel-X" target="_blank" rel="noopener noreferrer">View public repository <span aria-hidden="true">↗</span></a></div>
+          </article>
+        </div>
+        <p class="disclosure">Projects are educational, research or development work. AgentCheck's public case study is a bounded synthetic demonstration; its full private implementation is not published.</p>
+      </div>
+    </section>
+
+    <section class="details-section shell" id="experience" aria-labelledby="experience-title">
+      <div class="details-grid">
+        <div class="detail-column"><p class="section-kicker">02 / FIELD EXPERIENCE</p><h2 id="experience-title">Professional <span>Experience</span></h2>
+          <div class="timeline"><article class="timeline-entry"><div class="timeline-date">MAR 2026 — PRESENT</div><h3>Security Operations · SOC</h3><p class="timeline-company">SafeAeon · Mohali</p><p>Security alert triage, authentication and endpoint investigation, severity-based reporting, and escalation workflows.</p></article>
+          <article class="timeline-entry"><div class="timeline-date">JAN — MAR 2025</div><h3>Security Intern · VAPT</h3><p class="timeline-company">Vaishnav Technologies</p><p>Web and network security assessment, vulnerability analysis, and structured remediation findings.</p></article></div>
+        </div>
+        <div class="detail-column"><p class="section-kicker">03 / WORKING TOOLKIT</p><h2>Technical <span>Capabilities</span></h2>
+          <div class="capability-list"><div><span>◈</span><div><h3>SOC &amp; Detection</h3><p>Rapid7 InsightIDR · SentinelOne · incident investigation · log analysis</p></div></div>
+          <div><span>⌘</span><div><h3>Security Engineering</h3><p>Python automation · SIEM-style detection · structured reporting</p></div></div>
+          <div><span>◇</span><div><h3>AI-Agent Security Research</h3><p>Prompt-injection scenarios · tool authorization boundaries · local validation</p></div></div>
+          <div><span>◎</span><div><h3>VAPT &amp; Analysis</h3><p>Burp Suite · Nmap · OpenVAS · OWASP methodologies</p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section" id="about" aria-labelledby="about-title"><div class="shell about-grid"><div><p class="section-kicker">04 / BACKGROUND</p><h2 id="about-title">About <span>Me</span></h2><p>My interests connect everyday SOC investigation with practical security engineering. I build projects to understand how systems fail, how evidence is collected, and where authorization must be enforced independently of an AI model.</p></div><div class="about-card"><p class="section-kicker">EDUCATION</p><h3>B.Tech — Computer Science &amp; Engineering</h3><p>Cybersecurity specialization · Lovely Professional University · 2022–2026</p><p class="fine-print">Credential details and graduation status are being reconciled for the public portfolio.</p></div></div></section>
+
+    <section class="contact-section shell" id="contact" aria-labelledby="contact-title"><div class="contact-panel"><div><p class="section-kicker">05 / CONNECT</p><h2 id="contact-title">Let's discuss <span>security.</span></h2><p>Interested in SOC, detection engineering, security tooling, or applied AI security research? I'd be glad to connect.</p></div><div class="contact-actions"><a class="button button-primary" href="mailto:nawazmuztaba000@gmail.com?subject=Cybersecurity%20collaboration">Email me <span aria-hidden="true">↗</span></a><a class="button button-outline" href="https://www.linkedin.com/in/nawaz-muztaba/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a class="button button-outline" href="https://github.com/NawazMuztaba" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><span>© 2026 Nawaz Muztaba</span><span>Security research · Clear evidence · Responsible engineering</span><span>Portfolio V2 — review prototype</span></div></footer>
+</body>
+</html>
