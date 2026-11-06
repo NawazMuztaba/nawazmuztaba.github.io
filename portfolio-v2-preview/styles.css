@@ -238,3 +238,6 @@ h2 span{color:var(--cyan)}
 
 /* The Pause button stops both WebGL motion and the CSS radar sweep. */
 .hero-visual.paused .globe-stage::before{animation-play-state:paused}
+
+/* Phone view uses a polished static globe: no perpetual radar animation. */
+@media(max-width:740px){.globe-stage::before{animation:none;opacity:.24}}
