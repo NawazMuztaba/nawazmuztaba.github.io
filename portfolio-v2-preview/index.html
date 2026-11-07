@@ -52,22 +52,56 @@
 
     <section class="work-section" id="projects" aria-labelledby="projects-title">
       <div class="shell">
-        <div class="section-head"><div><p class="section-kicker">01 / SELECTED WORK</p><h2 id="projects-title">Selected <span>Work</span></h2></div><p class="section-aside">RESEARCH · DETECTION · OFFENSIVE SECURITY</p></div>
+        <div class="section-head"><div><p class="section-kicker">01 / SELECTED WORK</p><h2 id="projects-title">Selected <span>Work</span></h2></div><p class="section-aside">RESEARCH · DETECTION · SECURITY ENGINEERING</p></div>
+        <p class="work-intro">Three security engineering studies, with links to the public evidence behind each project.</p>
         <div class="project-grid">
-          <article class="project-card accent-green">
+          <article class="project-card accent-green" aria-labelledby="project-agentcheck-title">
             <div class="project-visual visual-agent"><span class="visual-grid"></span><span class="device-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 8 78 20v28c0 19-13 32-30 41C31 80 18 67 18 48V20Z" fill="none" stroke="currentColor" stroke-width="4"/><rect x="32" y="34" width="32" height="25" rx="6" fill="none" stroke="currentColor" stroke-width="3"/><path d="M48 28v6m0-10v-5m-9 28h2m14 0h2" stroke="currentColor" stroke-width="3"/><circle cx="48" cy="18" r="3" fill="currentColor"/></svg></span></div>
-            <div class="project-body"><div class="project-topline">AI SECURITY / AUTHORIZATION <span>01</span></div><h3>AgentCheck V2 Alpha</h3><p>Researching indirect prompt injection and an independent application Guard that validates locally simulated tool requests before execution.</p><ul class="tech-tags"><li>Python</li><li>Qwen / Ollama</li><li>SQLite</li></ul><a class="project-link" href="https://nawazmuztaba.github.io/projects/agentcheck-v2/">Read technical case study <span aria-hidden="true">↗</span></a></div>
+            <div class="project-body">
+              <div class="project-topline">AI SECURITY / AUTHORIZATION <span>01</span></div>
+              <h3 id="project-agentcheck-title">AgentCheck V2 Alpha</h3>
+              <p class="project-summary">Where should authorization live when an AI agent reads untrusted content and proposes a sensitive tool action?</p>
+              <dl class="project-evidence">
+                <div><dt>Implementation</dt><dd>Local scenarios examine model-proposed tool requests and an independent application Guard before protected SQLite access.</dd></div>
+                <div><dt>Evidence to inspect</dt><dd>A public technical study documents the bounded indirect-injection exercise and a separately denied forced-call test.</dd></div>
+              </dl>
+              <ul class="tech-tags" aria-label="Technologies"><li>Python</li><li>Qwen / Ollama</li><li>SQLite</li></ul>
+              <p class="project-scope">Research alpha · Synthetic conditions, not production protection</p>
+              <a class="project-link" href="https://nawazmuztaba.github.io/projects/agentcheck-v2/">Read technical case study <span aria-hidden="true">↗</span></a>
+            </div>
           </article>
-          <article class="project-card accent-cyan">
+          <article class="project-card accent-cyan" aria-labelledby="project-soc-title">
             <div class="project-visual visual-soc"><span class="visual-grid"></span><span class="device-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><rect x="14" y="18" width="68" height="47" rx="5" stroke="currentColor" fill="none" stroke-width="4"/><path d="M24 53 36 43l11 5 12-19 13 8" fill="none" stroke="currentColor" stroke-width="3"/><path d="M35 79h26M48 65v14" stroke="currentColor" stroke-width="4"/></svg></span></div>
-            <div class="project-body"><div class="project-topline">SOC / DETECTION AUTOMATION <span>02</span></div><h3>Intelligent SOC Automation</h3><p>A Python-based, SIEM-style project for simulated log monitoring, attack-pattern correlation, and structured security alerts.</p><ul class="tech-tags"><li>Python</li><li>Redis</li><li>MITRE ATT&amp;CK</li></ul><a class="project-link" href="https://github.com/NawazMuztaba/intelligent-soc-automation" target="_blank" rel="noopener noreferrer">View public repository <span aria-hidden="true">↗</span></a></div>
+            <div class="project-body">
+              <div class="project-topline">SOC / DETECTION PIPELINE <span>02</span></div>
+              <h3 id="project-soc-title">Intelligent SOC Automation</h3>
+              <p class="project-summary">How can local authentication, scan and web-pattern logs become structured alerts for analyst review?</p>
+              <dl class="project-evidence">
+                <div><dt>Implementation</dt><dd>Python log adapter and rule-based detectors communicate through Redis, with Flask API and React dashboard source.</dd></div>
+                <div><dt>Evidence to inspect</dt><dd>The public repository contains pipeline code and sample-log instructions. An independent clean setup test remains pending.</dd></div>
+              </dl>
+              <ul class="tech-tags" aria-label="Technologies"><li>Python</li><li>Redis</li><li>Flask</li><li>React</li></ul>
+              <p class="project-scope">Local prototype · No production detection metrics claimed</p>
+              <a class="project-link" href="https://github.com/NawazMuztaba/intelligent-soc-automation" target="_blank" rel="noopener noreferrer">Explore source and setup <span aria-hidden="true">↗</span></a>
+            </div>
           </article>
-          <article class="project-card accent-green">
+          <article class="project-card accent-green" aria-labelledby="project-sentinel-title">
             <div class="project-visual visual-vapt"><span class="visual-grid"></span><span class="device-icon"><svg viewBox="0 0 96 96" aria-hidden="true"><path d="M48 13 79 31 48 50 17 31Z M17 42l31 18 31-18 M17 54l31 18 31-18" stroke="currentColor" stroke-width="4" fill="none" stroke-linejoin="round"/><circle cx="48" cy="31" r="5" fill="currentColor"/></svg></span></div>
-            <div class="project-body"><div class="project-topline">VAPT / ATTACK SURFACE <span>03</span></div><h3>Sentinel-X</h3><p>Modular Python tooling for reconnaissance, attack-surface review, vulnerability assessment, and repeatable reporting.</p><ul class="tech-tags"><li>Python</li><li>Nmap</li><li>OpenVAS</li></ul><a class="project-link" href="https://github.com/NawazMuztaba/Sentinel-X" target="_blank" rel="noopener noreferrer">View public repository <span aria-hidden="true">↗</span></a></div>
+            <div class="project-body">
+              <div class="project-topline">ASSESSMENT / ATTACK SURFACE <span>03</span></div>
+              <h3 id="project-sentinel-title">Sentinel-X</h3>
+              <p class="project-summary">How can separate assessment steps be organized from asset discovery through security reporting?</p>
+              <dl class="project-evidence">
+                <div><dt>Implementation</dt><dd>Python modules explore discovery, classification, risk scoring, TLS checks and report generation.</dd></div>
+                <div><dt>Evidence to inspect</dt><dd>The public code includes an orchestrator and assessment modules; benchmark and production claims are not independently verified.</dd></div>
+              </dl>
+              <ul class="tech-tags" aria-label="Technologies"><li>Python</li><li>TLS analysis</li><li>Risk scoring</li><li>Reporting</li></ul>
+              <p class="project-scope">Experimental workflow · Authorized or controlled targets only</p>
+              <a class="project-link" href="https://github.com/NawazMuztaba/Sentinel-X" target="_blank" rel="noopener noreferrer">Review source and limitations <span aria-hidden="true">↗</span></a>
+            </div>
           </article>
         </div>
-        <p class="disclosure">Projects are educational, research or development work. AgentCheck's public case study is a bounded synthetic demonstration; its full private implementation is not published.</p>
+        <p class="disclosure">These are research or development projects, not independently certified production systems. AgentCheck's technical study uses bounded synthetic scenarios; its full private implementation is not published.</p>
       </div>
     </section>
 
