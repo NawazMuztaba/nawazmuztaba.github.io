@@ -100,6 +100,14 @@ def run():
             if digest(response_body)!=EXPECTED_SHA256:
                 report["errors"].append(f"{width}px HTTP PDF differs from original")
             if width in (390,1440):
+                # Exercise the actual View Resume click; Chromium should open a PDF tab.
+                with page.expect_popup(timeout=15000) as popup_info:
+                    view.click()
+                popup=popup_info.value
+                ui["view_popup_url"]=popup.url
+                if not popup.url.split("?")[0].endswith("/"+NAME):
+                    report["errors"].append(f"{width}px View Resume did not open the PDF")
+                popup.close()
                 page.locator(".hero-actions").screenshot(
                     path=str(OUT/f"resume-actions-{width}.png"),animations="disabled")
                 with page.expect_download(timeout=12000) as info:
