@@ -104,9 +104,15 @@ def run():
                 with page.expect_popup(timeout=15000) as popup_info:
                     view.click()
                 popup=popup_info.value
+                # expect_popup fires at tab creation, before async PDF navigation.
+                try:
+                    popup.wait_for_url(f"**/{NAME}",timeout=15000)
+                except Exception:
+                    pass
                 ui["view_popup_url"]=popup.url
                 if not popup.url.split("?")[0].endswith("/"+NAME):
-                    report["errors"].append(f"{width}px View Resume did not open the PDF")
+                    report["errors"].append(
+                        f"{width}px View Resume popup location invalid: {popup.url}")
                 popup.close()
                 page.locator(".hero-actions").screenshot(
                     path=str(OUT/f"resume-actions-{width}.png"),animations="disabled")
