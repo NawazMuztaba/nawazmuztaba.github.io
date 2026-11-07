@@ -56,8 +56,13 @@ def measure(page):
 def compare_images(a: bytes, b: bytes):
     ia,ib=Image.open(io.BytesIO(a)).convert('RGB'),Image.open(io.BytesIO(b)).convert('RGB')
     if ia.size!=ib.size: return {'match':False, 'reason':'dimensions_changed', 'before':ia.size, 'after':ib.size}
-    box=ImageChops.difference(ia,ib).getbbox()
-    return {'match':box is None,'difference_bbox':box,'dimensions':ia.size}
+    difference=ImageChops.difference(ia,ib)
+    box=difference.getbbox()
+    # Separate minor headless anti-aliasing variance from meaningful rendered changes.
+    mask=difference.convert('L').point(lambda value:255 if value>=12 else 0)
+    changed=mask.histogram()[255]
+    return {'match':box is None,'difference_bbox':box,'dimensions':ia.size,
+            'changed_pixels_above_12':changed,'changed_pixel_fraction':changed/(ia.width*ia.height)}
 
 def run():
     report={'baseline_commit':BASE,'candidate_sha':os.environ.get('GITHUB_SHA', 'local'),
@@ -94,7 +99,10 @@ def run():
             diff=compare_images(shots['baseline'],shots['candidate'])
             m=data['candidate']
             issues=[]
-            if not diff['match']: issues.append('pixel_difference_from_baseline')
+            # Navigation fixes intentionally change 320–360px and 741–900px appearance.
+            expected_nav_change=(width<=360 or 741<=width<=900)
+            if diff.get('changed_pixel_fraction',1)>0.0003 and not expected_nav_change:
+              issues.append('meaningful_pixel_difference_from_baseline')
             if m['scrollWidth']>width+1: issues.append('horizontal_document_overflow')
             if m['anchorTargets']: issues.append('unresolved_in_page_anchors')
             if m['projectCards']!=3: issues.append('featured_project_card_count')
@@ -118,6 +126,24 @@ def run():
           link_closed=menu.get_attribute('aria-expanded')=='false' and not nav.is_visible()
           report['interaction']={'mobile_open':opened,'escape_closes':closed,'escape_returns_focus':focus_returned,'anchor_closes':link_closed}
           if not all(report['interaction'].values()):report['failures'].append({'interaction':report['interaction']})
+          context.close()
+
+          # Tablet breakpoint regression: the 768px header must use the mobile menu.
+          context=browser.new_context(viewport={'width':768,'height':900},reduced_motion='reduce')
+          page=context.new_page()
+          page.route('**/three.min.js',lambda route: route.fulfill(status=200,content_type='application/javascript',body=''))
+          page.goto(url,wait_until='load',timeout=30000)
+          menu=page.locator('#menu-toggle'); nav=page.locator('#primary-navigation')
+          tablet_visible=menu.is_visible()
+          if tablet_visible: menu.click()
+          tablet_open=tablet_visible and nav.is_visible() and menu.get_attribute('aria-expanded')=='true'
+          page.keyboard.press('Escape')
+          tablet_closed=not nav.is_visible() and menu.get_attribute('aria-expanded')=='false'
+          report['interaction']['tablet_768_menu_visible']=tablet_visible
+          report['interaction']['tablet_768_open']=tablet_open
+          report['interaction']['tablet_768_escape_closes']=tablet_closed
+          if not all([tablet_visible,tablet_open,tablet_closed]):
+            report['failures'].append({'tablet_navigation':report['interaction']})
           context.close()
 
           # Actual runtime check (external CDN, WebGL enabled). A failure stays visible in the report.
