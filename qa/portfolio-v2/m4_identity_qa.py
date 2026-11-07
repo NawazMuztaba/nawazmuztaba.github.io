@@ -53,7 +53,7 @@ def measure(page):
          timelineBullets:document.querySelectorAll(".timeline-highlights li").length,
          skillCardCount:cards.length,
          skillContexts:document.querySelectorAll(".capability-context").length,
-         cardFonts:cards.map(x=>parseFloat(getComputedStyle(x.querySelector(".capability-context")).fontSize)),
+         cardFonts:cards.map(x=>x.querySelector(".capability-context") ? parseFloat(getComputedStyle(x.querySelector(".capability-context")).fontSize) : 0),
          experienceBulletsFont:document.querySelector(".timeline-highlights") ? parseFloat(getComputedStyle(document.querySelector(".timeline-highlights")).fontSize) : 0,
          projectCardCount:document.querySelectorAll(".project-card").length,
          internalMissing:[...document.querySelectorAll('a[href^="#"]')].filter(a=>a.hash.length>1&&!document.getElementById(a.hash.slice(1))).map(a=>a.hash),
@@ -136,7 +136,7 @@ def run():
             if candidate["scrollWidth"]>width+1:issues.append("horizontal_overflow")
             if candidate["detailColumns"]!=expected_cols:issues.append("details_grid_columns")
             if candidate["aboutColumns"]!=expected_cols:issues.append("about_grid_columns")
-            if candidate["timelineRoles"]!=["SOC Analyst Intern","Security Intern (VAPT)"]:
+            if candidate["timelineRoles"]!=["SOC Analyst","Security Intern (VAPT)"]:
                 issues.append("role_titles_or_order")
             if candidate["timelineBullets"]!=5:issues.append("incorrect_bullet_count")
             if candidate["skillCardCount"]!=4 or candidate["skillContexts"]!=4:
@@ -150,7 +150,7 @@ def run():
             if candidate["projectCardCount"]!=3:issues.append("project_card_regression")
             if candidate["internalMissing"]:issues.append("broken_anchor")
             if not candidate["capabilityAnchor"]:issues.append("capabilities_anchor_missing")
-            if "Lovely Professional University" not in candidate["educationText"]:
+            if "Lovely Professional University" not in candidate["educationText"] or "7.5/10" not in candidate["educationText"]:
                 issues.append("education_content_missing")
             results["viewports"][str(width)]={"issues":issues,
                   "scrollWidth":candidate["scrollWidth"],
