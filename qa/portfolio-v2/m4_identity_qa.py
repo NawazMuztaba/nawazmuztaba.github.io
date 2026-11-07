@@ -75,7 +75,18 @@ def invariant_rects(base,candidate):
 def run():
     results={"base":BASE,"candidate":os.environ.get("GITHUB_SHA","local"),
              "source":{},"viewports":{},"navigation":{},"globe":{},"failures":[]}
-    base_html=git_show(HTML)
+
+    # Compare against M3 with ONLY the explicitly approved resume CTAs applied.
+    # This protects all other hero/project geometry despite the added download action.
+    def approved_resume_ctas(h):
+        old_nav='<a class="nav-resume" href="mailto:nawazmuztaba000@gmail.com?subject=Resume%20request%20from%20portfolio">Request resume <span aria-hidden="true">↗</span></a>'
+        new_nav='<a class="nav-resume" href="./assets/Nawaz_Muztaba_Resume.pdf" target="_blank" rel="noopener noreferrer" type="application/pdf">View resume <span aria-hidden="true">↗</span></a>'
+        old_hero='<a class="button button-outline" href="mailto:nawazmuztaba000@gmail.com?subject=Resume%20request%20from%20portfolio">Request resume <span aria-hidden="true">↗</span></a>'
+        new_hero='<a class="button button-outline" href="./assets/Nawaz_Muztaba_Resume.pdf" target="_blank" rel="noopener noreferrer" type="application/pdf">View resume <span aria-hidden="true">↗</span></a><a class="button button-outline resume-download" href="./assets/Nawaz_Muztaba_Resume.pdf" download="Nawaz_Muztaba_Resume.pdf" type="application/pdf">Download PDF <span aria-hidden="true">↓</span></a>'
+        if h.count(old_nav)!=1 or h.count(old_hero)!=1:
+            raise ValueError("M3 baseline no longer has expected resume CTAs")
+        return h.replace(old_nav,new_nav).replace(old_hero,new_hero)
+    base_html=approved_resume_ctas(git_show(HTML))
     base_css=git_show(CSS)
     html=(ROOT/HTML).read_text(encoding="utf-8")
     css=(ROOT/CSS).read_text(encoding="utf-8")
