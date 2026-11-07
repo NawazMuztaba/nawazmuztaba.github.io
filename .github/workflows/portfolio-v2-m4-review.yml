@@ -1,0 +1,38 @@
+name: Portfolio V2 M4 identity QA
+on:
+  push:
+    branches:
+      - feat/portfolio-v2-m4-identity-20261107
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  m4-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout with full M3 baseline history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install review-only Chromium dependencies
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Verify experience, skills and protected hero
+        run: python qa/portfolio-v2/m4_identity_qa.py
+      - name: Verify owner's exact hosted PDF and real browser download
+        run: python qa/portfolio-v2/resume_pdf_qa.py
+      - name: Upload visual and JSON QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-v2-m4-review-evidence
+          path: |
+            qa-artifacts/portfolio-v2-m4/
+            qa-artifacts/portfolio-v2-resume/
+          if-no-files-found: warn

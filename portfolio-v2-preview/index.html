@@ -23,7 +23,7 @@
       <button class="menu-button" id="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false"><span class="menu-lines" aria-hidden="true">☰</span><span class="sr-only">Toggle navigation</span></button>
       <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
         <a href="#projects">Work</a><a href="#experience">Experience</a><a href="#about">About</a><a href="#contact">Contact</a>
-        <a class="nav-resume" href="mailto:nawazmuztaba000@gmail.com?subject=Resume%20request%20from%20portfolio">Request resume <span aria-hidden="true">↗</span></a>
+        <a class="nav-resume" href="/assets/Nawaz_Muztaba_Resume.pdf" target="_blank" rel="noopener noreferrer" type="application/pdf">View resume <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -36,7 +36,7 @@
         <h1 id="hero-title">Nawaz <span>Muztaba</span></h1>
         <p class="hero-statement">I investigate threats. I build <strong>safer systems.</strong></p>
         <p class="hero-lead">SOC practitioner working across alert investigation, detection automation, and research into safer AI-agent actions.</p>
-        <div class="hero-actions"><a class="button button-primary" href="#projects">Explore projects <span aria-hidden="true">→</span></a><a class="button button-outline" href="mailto:nawazmuztaba000@gmail.com?subject=Resume%20request%20from%20portfolio">Request resume <span aria-hidden="true">↗</span></a></div>
+        <div class="hero-actions"><a class="button button-primary" href="#projects">Explore projects <span aria-hidden="true">→</span></a><a class="button button-outline" href="/assets/Nawaz_Muztaba_Resume.pdf" target="_blank" rel="noopener noreferrer" type="application/pdf">View resume <span aria-hidden="true">↗</span></a><a class="button button-outline resume-download" href="/assets/Nawaz_Muztaba_Resume.pdf" download="Nawaz_Muztaba_Resume.pdf" type="application/pdf">Download PDF <span aria-hidden="true">↓</span></a></div>
         <ul class="skill-strip" aria-label="Key technologies"><li>Rapid7 InsightIDR</li><li>SentinelOne</li><li>Python</li><li>FortiSIEM <small>(learning)</small></li></ul>
       </div>
       <!-- Restored exact owner-original globe and colors; sibling of hero-copy, not inside technology list -->
@@ -107,20 +107,86 @@
 
     <section class="details-section shell" id="experience" aria-labelledby="experience-title">
       <div class="details-grid">
-        <div class="detail-column"><p class="section-kicker">02 / FIELD EXPERIENCE</p><h2 id="experience-title">Professional <span>Experience</span></h2>
-          <div class="timeline"><article class="timeline-entry"><div class="timeline-date">MAR 2026 — PRESENT</div><h3>Security Operations · SOC</h3><p class="timeline-company">SafeAeon · Mohali</p><p>Security alert triage, authentication and endpoint investigation, severity-based reporting, and escalation workflows.</p></article>
-          <article class="timeline-entry"><div class="timeline-date">JAN — MAR 2025</div><h3>Security Intern · VAPT</h3><p class="timeline-company">Vaishnav Technologies</p><p>Web and network security assessment, vulnerability analysis, and structured remediation findings.</p></article></div>
+        <div class="detail-column">
+          <p class="section-kicker">02 / FIELD EXPERIENCE</p>
+          <h2 id="experience-title">Professional <span>Experience</span></h2>
+          <p class="detail-intro">Security operations and assessment experience, described by the work performed rather than unverified performance metrics.</p>
+          <div class="timeline">
+            <article class="timeline-entry">
+              <div class="timeline-date">MAR 2026 — PRESENT</div>
+              <h3>SOC Analyst</h3>
+              <p class="timeline-company">SafeAeon Inc. · Mohali, Punjab</p>
+              <ul class="timeline-highlights"><li>Investigate authentication, cloud administration, endpoint and mailbox alerts using Rapid7 InsightIDR and SentinelOne.</li><li>Validate suspicious events using up to seven days of authentication, endpoint and process activity context to assess reportability.</li><li>Document client-facing investigation findings in Jira and support SLA-driven, severity-based incident escalation.</li></ul>
+              <p class="experience-scope">Alert triage · Identity investigation · Endpoint context · Documentation</p>
+            </article>
+            <article class="timeline-entry">
+              <div class="timeline-date">JAN — MAR 2025</div>
+              <h3>Security Intern (VAPT)</h3>
+              <p class="timeline-company">Vaishnav Technologies</p>
+              <ul class="timeline-highlights"><li>Worked on web and network vulnerability assessment using Burp Suite, Nmap, OpenVAS and Nikto.</li><li>Documented vulnerabilities using OWASP Top 10 and CVSS concepts, supported by IOC analysis and MITRE ATT&amp;CK mapping.</li></ul>
+              <p class="experience-scope">Web testing · Network enumeration · Vulnerability review</p>
+            </article>
+          </div>
         </div>
-        <div class="detail-column"><p class="section-kicker">03 / WORKING TOOLKIT</p><h2>Technical <span>Capabilities</span></h2>
-          <div class="capability-list"><div><span>◈</span><div><h3>SOC &amp; Detection</h3><p>Rapid7 InsightIDR · SentinelOne · incident investigation · log analysis</p></div></div>
-          <div><span>⌘</span><div><h3>Security Engineering</h3><p>Python automation · SIEM-style detection · structured reporting</p></div></div>
-          <div><span>◇</span><div><h3>AI-Agent Security Research</h3><p>Prompt-injection scenarios · tool authorization boundaries · local validation</p></div></div>
-          <div><span>◎</span><div><h3>VAPT &amp; Analysis</h3><p>Burp Suite · Nmap · OpenVAS · OWASP methodologies</p></div></div></div>
+
+        <div class="detail-column" id="capabilities" aria-labelledby="capabilities-title">
+          <p class="section-kicker">03 / PRACTICAL TOOLKIT</p>
+          <h2 id="capabilities-title">Technical <span>Capabilities</span></h2>
+          <p class="detail-intro">Tools and practices organized around how they are applied in SOC work, internships and local security projects.</p>
+          <div class="capability-list">
+            <div>
+              <span aria-hidden="true">◈</span>
+              <div>
+                <h3>SOC Investigation</h3>
+                <p>Rapid7 InsightIDR · SentinelOne · Microsoft Defender (working knowledge) · Jira</p>
+                <p class="capability-context">Authentication, endpoint and cloud activity investigation, Microsoft 365 / Entra context, incident reporting and escalation.</p>
+              </div>
+            </div>
+            <div>
+              <span aria-hidden="true">⌘</span>
+              <div>
+                <h3>Detection &amp; Security Engineering</h3>
+                <p>Python · Redis · Flask · React · SQLite · KQL (working knowledge)</p>
+                <p class="capability-context">Local log-to-alert prototypes, structured security reports, and ongoing FortiSIEM monitoring/event-correlation learning.</p>
+              </div>
+            </div>
+            <div>
+              <span aria-hidden="true">◇</span>
+              <div>
+                <h3>AI-Agent Authorization Research</h3>
+                <p>Guard boundaries · indirect prompt injection · SQLite · Ollama</p>
+                <p class="capability-context">Bounded synthetic scenarios that separate model proposals from application authorization.</p>
+              </div>
+            </div>
+            <div>
+              <span aria-hidden="true">◎</span>
+              <div>
+                <h3>Web &amp; Network Assessment</h3>
+                <p>Burp Suite · Nmap · OpenVAS · OWASP Top 10 · CVSS</p>
+                <p class="capability-context">Assessment exercises, vulnerability classification and documented remediation guidance.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="about-section" id="about" aria-labelledby="about-title"><div class="shell about-grid"><div><p class="section-kicker">04 / BACKGROUND</p><h2 id="about-title">About <span>Me</span></h2><p>My interests connect everyday SOC investigation with practical security engineering. I build projects to understand how systems fail, how evidence is collected, and where authorization must be enforced independently of an AI model.</p></div><div class="about-card"><p class="section-kicker">EDUCATION</p><h3>B.Tech — Computer Science &amp; Engineering</h3><p>Cybersecurity specialization · Lovely Professional University · 2022–2026</p><p class="fine-print">Credential details and graduation status are being reconciled for the public portfolio.</p></div></div></section>
+    <section class="about-section" id="about" aria-labelledby="about-title">
+      <div class="shell about-grid">
+        <div>
+          <p class="section-kicker">04 / BACKGROUND</p>
+          <h2 id="about-title">About <span>Me</span></h2>
+          <p>My work connects day-to-day SOC investigation with practical security engineering. I build small, inspectable projects to understand failure modes, collect useful evidence and test where authorization must be enforced independently of an AI model.</p>
+          <p>I value clear documentation and reproducible demonstrations over unsupported claims of security effectiveness.</p>
+        </div>
+        <div class="about-card">
+          <p class="section-kicker">EDUCATION</p>
+          <h3>B.Tech programme — Computer Science &amp; Engineering</h3>
+          <p>Cybersecurity specialization · Lovely Professional University · 2022–2026 · CGPA 7.5/10 (resume-listed)</p>
+          <p class="fine-print">Academic programme and study period; degree-award status is not asserted here.</p>
+        </div>
+      </div>
+    </section>
 
     <section class="contact-section shell" id="contact" aria-labelledby="contact-title"><div class="contact-panel"><div><p class="section-kicker">05 / CONNECT</p><h2 id="contact-title">Let's discuss <span>security.</span></h2><p>Interested in SOC, detection engineering, security tooling, or applied AI security research? I'd be glad to connect.</p></div><div class="contact-actions"><a class="button button-primary" href="mailto:nawazmuztaba000@gmail.com?subject=Cybersecurity%20collaboration">Email me <span aria-hidden="true">↗</span></a><a class="button button-outline" href="https://www.linkedin.com/in/nawaz-muztaba/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a class="button button-outline" href="https://github.com/NawazMuztaba" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div></div></section>
   </main>

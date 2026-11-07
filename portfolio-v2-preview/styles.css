@@ -328,3 +328,84 @@ h2 span{color:var(--cyan)}
   .project-evidence dd{font-size:13px}
   .work-intro{font-size:14px}
 }
+
+/* M4 — experience and capabilities only.
+   Earlier approved hero, globe, navigation and M3 project styles remain untouched. */
+.details-section .detail-intro{
+  max-width:52ch;
+  margin:-10px 0 25px;
+  color:#b4cbd4;
+  font-size:14px;
+  line-height:1.65
+}
+.details-section .timeline{margin-top:18px}
+.details-section .timeline-entry{padding-bottom:32px}
+.details-section .timeline-date{
+  font-size:11px;
+  line-height:1.4
+}
+.details-section .timeline-entry h3{
+  font-size:19px;
+  line-height:1.35;
+  margin:0 0 6px
+}
+.details-section .timeline-company{
+  font-size:13px!important;
+  line-height:1.5
+}
+.timeline-highlights{
+  display:grid;
+  gap:9px;
+  list-style:disc;
+  padding:0 0 0 19px;
+  margin:0 0 14px;
+  color:#c0d5de;
+  font-size:14px;
+  line-height:1.64
+}
+.timeline-highlights li{padding-left:3px;overflow-wrap:anywhere}
+.timeline-highlights li::marker{color:#43dcc5}
+.details-section .timeline .experience-scope{
+  color:#95b7c4;
+  font-size:12px;
+  line-height:1.6;
+  border-top:1px solid rgba(62,172,183,.2);
+  padding-top:12px;
+  max-width:54ch
+}
+.details-section .capability-list{gap:13px}
+.details-section .capability-list>div{padding:20px;gap:15px}
+.details-section .capability-list h3{
+  font-size:17px;
+  line-height:1.4;
+  margin:0 0 7px
+}
+.details-section .capability-list p{
+  color:#d1e3e9;
+  font-size:13px;
+  line-height:1.65
+}
+.details-section .capability-list .capability-context{
+  margin-top:9px;
+  color:#9fbfc9;
+  font-size:13px;
+  line-height:1.58
+}
+#capabilities{scroll-margin-top:88px}
+.about-card .fine-print{
+  margin-top:15px;
+  border-top:1px solid rgba(66,194,191,.20);
+  padding-top:12px;
+  font-size:12px;
+  line-height:1.6
+}
+@media(max-width:740px){
+  .details-section .detail-intro{margin-top:-5px}
+  .details-section .timeline{padding-left:23px}
+  .details-section .timeline-entry::before{left:-29px}
+}
+@media(max-width:480px){
+  .details-section .capability-list>div{padding:16px}
+  .details-section .timeline-entry h3{font-size:18px}
+  .timeline-highlights{font-size:13px}
+}
