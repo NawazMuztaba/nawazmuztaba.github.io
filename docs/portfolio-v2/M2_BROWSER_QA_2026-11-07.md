@@ -40,3 +40,10 @@ PR #8 now includes a **navigation-only** adjustment: compact header at <=360px, 
 - Test 200% zoom, assistive technology, mobile Safari, Firefox/Edge, actual FPS, WebGL fallback and Core Web Vitals.
 - Review all public credentials, resume links and contact behavior on the existing live site separately.
 - **Do not merge PR #8 or PR #4 and do not change `main` without owner release approval.**
+
+## 2026-11-07 — OWNER APPROVED THE 901–960px FIT ADJUSTMENT
+- Owner replied “OKH DONE NOW NEXT” to the explicit proposal of a limited 901–960px original-globe responsive-size fix.
+- Applied on **draft PR #8 review branch only**: `portfolio-v2-preview/styles.css` adds `@media (min-width:901px) and (max-width:960px)` and scales the existing `.original-globe` wrapper to `0.86` using `translate(-50%,-50%) scale(.86)`. This adjusts visual placement/size only, without altering original WebGL source, material colors, node count, geometry or animation speeds.
+- Extended automated QA to include **960px and 961px** (16 viewports total), assert the visual width within the approved narrow band, assert original full size restores above 960px, and distinguish approved screenshot differences from regressions.
+- The original-globe source blob SHA must remain `1be0c45a592aa54aa78bf42682964a0d11303977`. **No merge or production deployment is approved.**
+- Browser validation for the new fit and expanded matrix: [GitHub Actions run #42321309332](https://github.com/NawazMuztaba/nawazmuztaba.github.io/actions/runs/42321309332). Its final conclusion must be verified before declaring the 901px defect fixed. Outstanding: browser screenshots manual review, actual FPS, reduced motion on WebGL loop, fallback, WCAG/cross-browser, content verification.
