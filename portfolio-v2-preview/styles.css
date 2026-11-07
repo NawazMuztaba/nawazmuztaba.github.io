@@ -239,3 +239,11 @@ h2 span{color:var(--cyan)}
     transform:translate(-50%,-50%) scale(.86)
   }
 }
+
+/* Follow-on narrow breakpoint fit: avoid a 9px overhang when the globe
+   returns toward full size at 961px. Still CSS-only; original source intact. */
+@media (min-width:961px) and (max-width:1000px){
+  .hero .legacy-hero .original-globe{
+    transform:translate(-50%,-50%) scale(.94)
+  }
+}
