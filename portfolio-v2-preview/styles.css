@@ -313,3 +313,28 @@ h2 span{color:var(--cyan)}
 @media(prefers-reduced-motion:reduce){
   .legacy-hero .cring{animation:none!important}
 }
+
+
+/* OWNER-REQUESTED RECOVERY — original globe colors, right-column hero only.
+   No experimental Obsidian Aurora material/ring color changes. */
+@media(min-width:901px){
+  .hero.shell{
+    display:grid;
+    grid-template-columns:minmax(0,1.13fr) minmax(360px,.87fr);
+    align-items:center;
+    column-gap:clamp(18px,2vw,34px);
+    min-height:590px;
+  }
+  .hero .hero-copy{grid-column:1;grid-row:1;min-width:0}
+  .hero .legacy-hero{
+    grid-column:2;grid-row:1;
+    justify-self:end;align-self:center;
+    margin:0;
+  }
+  .hero h1{font-size:clamp(49px,5vw,75px);line-height:1.03}
+}
+@media(max-width:900px){
+  .hero.shell{display:grid;grid-template-columns:minmax(0,1fr);row-gap:8px}
+  .hero .hero-copy,.hero .legacy-hero{grid-column:1}
+  .hero .legacy-hero{justify-self:center;margin:0 auto}
+}
