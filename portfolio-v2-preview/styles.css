@@ -206,3 +206,27 @@ h2 span{color:var(--cyan)}
   .hero .hero-copy,.hero .legacy-hero{grid-column:1}
   .hero .legacy-hero{justify-self:center;margin:0 auto}
 }
+
+
+/* QA-responsive navigation repair: narrow mobiles and 741–900px tablets.
+   Does not touch the approved original globe or hero layout. */
+@media (min-width:741px) and (max-width:900px){
+  .menu-button{display:grid;place-items:center;flex:0 0 44px}
+  .site-nav{
+    display:none;position:absolute;top:75px;left:0;right:0;
+    padding:16px 28px 22px;background:#071a28;
+    box-shadow:0 25px 45px #020b14;border-bottom:1px solid var(--line);
+    flex-direction:column;align-items:stretch;gap:2px
+  }
+  .site-nav.open{display:flex}
+  .site-nav>a:not(.nav-resume){padding:13px 10px}
+  .nav-resume{margin:10px 0 0;text-align:center}
+}
+@media (max-width:360px){
+  .nav-inner{gap:8px}
+  .brand{gap:8px;min-width:0}
+  .brand-mark{font-size:31px}
+  .brand-copy b{font-size:14px}
+  .brand-copy small{font-size:7px;letter-spacing:.07em}
+  .menu-button{flex:0 0 44px}
+}
