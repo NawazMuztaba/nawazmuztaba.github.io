@@ -76,3 +76,14 @@ Act as Principal Cybersecurity Portfolio Architect, Technical UX Lead, and Relea
 - 15/15 source checks passed. Real browser visual impression/FPS NOT yet tested or approved. User should download a NEW ZIP from PR #7 head branch and run local Python HTTP server from `portfolio-v2-preview`.
 - **Rollback:** Original unchanged colors remain in PR #6; if user dislikes palette, restore PR #6 original-globe.js material values while KEEPING valid HTML/layout from PR #7. Do NOT simply revert PR #7 wholesale, because PR #6 HTML was malformed.
 - GitHub main, public case study and previous PRs untouched; DO NOT merge anything until explicit release approval.
+
+
+## 2026-11-07 — RECOVERY AFTER ACCIDENTAL MERGE (current decision, supersedes Aurora)
+- User accidentally merged **PR #6** into prototype branch `feat/portfolio-v2-prototype-20261107`. PR #6 was the exact *original* green wireframe globe; its HTML still had malformed hero markup.
+- **PR #7 Obsidian Aurora was never merged** (despite user concern) and was **closed unmerged** upon user rejection.
+- On the existing prototype branch `feat/portfolio-v2-prototype-20261107`, corrected hero HTML **in place** and added a responsive grid layout override that positions original globe to the **right side on desktop**. Original hero copy was recovered verbatim from branch `feat/globe-v3-fidelity-20261107` (created before PR #6) to avoid invented content.
+- **Globe JS untouched**: `portfolio-v2-preview/original-globe.js` blob SHA `1be0c45a592aa54aa78bf42682964a0d11303977`. Exact legacy colors: green `0x00ff41`, red `0xff2244`, cyan `0x00e5ff`, dark core `0x010801`. Original renderer size, particle counts, arcs, satellite movements and animation speeds unchanged.
+- Recovery commits to prototype branch: HTML `2a0a96a7615d60aa0c24c001310d49b66dffef8f`; CSS `26bd33d879be44fd5cf52ff42b74748b5cd0b0d1`.
+- Verification: 16/16 static checks passed: balanced HTML, original palette unchanged, correct right-column CSS, no stray markup, old orbit timings, PR #7 closed, old site/case-study main untouched. **Actual desktop browser display/FPS not yet measured.**
+- PR #4 (prototype toward `main`) remains open/draft. Do not merge PR #4 into main without explicit release approval. User should download a **new ZIP** from prototype branch and serve inside `portfolio-v2-preview`: `python -m http.server 8000` → `http://localhost:8000/`. Do not download stale ZIPs or use Obsidian Aurora branch.
+- Owner current choice: **original green globe** with fixed right-side desktop placement. Do not reintroduce Obsidian Aurora unless explicitly requested.
