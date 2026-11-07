@@ -100,20 +100,26 @@ def run():
             if digest(response_body)!=EXPECTED_SHA256:
                 report["errors"].append(f"{width}px HTTP PDF differs from original")
             if width in (390,1440):
-                # Exercise the actual View Resume click; Chromium should open a PDF tab.
+                # Headless Chromium cannot render PDFs in a normal viewer tab.
+                # Intercept ONLY the popup navigation with inert HTML, proving the
+                # View button reaches the intended URL. The real PDF GET/hash and
+                # browser downloads are verified separately without interception.
+                context.route(f"**/{NAME}",lambda route:route.fulfill(
+                    status=200,content_type="text/html",
+                    body="<html><title>PDF navigation smoke</title></html>"))
                 with page.expect_popup(timeout=15000) as popup_info:
                     view.click()
                 popup=popup_info.value
-                # expect_popup fires at tab creation, before async PDF navigation.
                 try:
-                    popup.wait_for_url(f"**/{NAME}",timeout=15000)
+                    popup.wait_for_url(f"**/{NAME}",timeout=12000)
                 except Exception:
                     pass
-                ui["view_popup_url"]=popup.url
+                ui["view_navigation_url"]=popup.url
                 if not popup.url.split("?")[0].endswith("/"+NAME):
                     report["errors"].append(
-                        f"{width}px View Resume popup location invalid: {popup.url}")
+                        f"{width}px View Resume did not navigate to target: {popup.url}")
                 popup.close()
+                context.unroute(f"**/{NAME}")
                 page.locator(".hero-actions").screenshot(
                     path=str(OUT/f"resume-actions-{width}.png"),animations="disabled")
                 with page.expect_download(timeout=12000) as info:
