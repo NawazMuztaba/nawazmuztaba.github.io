@@ -230,3 +230,12 @@ h2 span{color:var(--cyan)}
   .brand-copy small{font-size:7px;letter-spacing:.07em}
   .menu-button{flex:0 0 44px}
 }
+
+/* Owner-approved narrow desktop globe fit (901-960px).
+   Scale the existing visual as one unit to prevent 901px clipping.
+   Original WebGL geometry, colors, animation and CSS rings are unchanged. */
+@media (min-width:901px) and (max-width:960px){
+  .hero .legacy-hero .original-globe{
+    transform:translate(-50%,-50%) scale(.86)
+  }
+}
