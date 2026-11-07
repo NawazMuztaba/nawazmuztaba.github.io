@@ -35,3 +35,11 @@ See the [M3 source audit](./M3_FEATURED_PROJECT_EVIDENCE_REVIEW_2026-11-07.md) f
 - Credential verification and a precise education/experience narrative.
 - Evidence-rich deeper case studies or demo screenshots only after real reproducible results and safe publication review.
 - Continue manual browser aesthetics, keyboard/screen-reader, mobile Safari, WebGL fallback and performance checks before public release.
+
+## Verified M3 browser QA — SUCCESS
+- [GitHub Actions run #42323398234](https://github.com/NawazMuztaba/nawazmuztaba.github.io/actions/runs/42323398234) completed **SUCCESS** on M3 review commit `7ef4a3d1a8a641d79251b0ab8479bca21fefa2c7`.
+- Actual headless Chromium browser checked **20 viewport widths**, baseline-versus-candidate hero geometry, no horizontal page overflow, card counts/semantics/links, intended 3/2/1 responsive grid, text-size and card-link bounds. Zero reported failures.
+- Mobile navigation assertions passed at 390px and tablet assertions passed at 768px (open, Escape closes, focus returned). Original globe smoke: Three.js loaded, canvas visible, no captured browser console/page errors; original globe source SHA still `1be0c45a592aa54aa78bf42682964a0d11303977`.
+- [Screenshot and JSON evidence artifact](https://github.com/NawazMuztaba/nawazmuztaba.github.io/actions/runs/42323398234/artifacts/13553814237) was uploaded (13 files). **These screenshots have not received owner manual visual sign-off.**
+- Contrast spot-checks against solid endpoints of project-card gradient backgrounds: new text colors ranged **7.81:1–12.93:1** (calculated for selected text/surface pairs, **not** a full WCAG conformance assessment).
+- **Release decision remains HOLD** until owner visual review, contact/credentials/employment claim verification, and wider accessibility/performance review. PR #9 is draft and unmerged into prototype; PR #4 unmerged into `main`.
