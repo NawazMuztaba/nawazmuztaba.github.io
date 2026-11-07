@@ -21,7 +21,7 @@ from PIL import Image, ImageChops
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 BASE = "26bd33d879be44fd5cf52ff42b74748b5cd0b0d1"
 CSS_PATH = "portfolio-v2-preview/styles.css"
-WIDTHS = [320, 360, 390, 480, 740, 768, 900, 901, 960, 961, 1010, 1024, 1280, 1366, 1440, 1920]
+WIDTHS = [320, 360, 390, 480, 740, 768, 900, 901, 960, 961, 980, 1000, 1001, 1010, 1024, 1280, 1366, 1440, 1920]
 OUT = ROOT / "qa-artifacts" / "portfolio-v2"
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -93,14 +93,14 @@ def run():
               data[version]=measure(page)
               shot=page.screenshot(full_page=True,animations='disabled',timeout=15000)
               shots[version]=shot
-              if width in [390,900,901,960,961,1440]:
+              if width in [390,900,901,960,961,1000,1001,1440]:
                 (OUT/f'{width}-{version}.png').write_bytes(shot)
               context.close()
             diff=compare_images(shots['baseline'],shots['candidate'])
             m=data['candidate']
             issues=[]
             # Navigation fixes intentionally change 320–360px and 741–900px appearance.
-            expected_approved_change=(width<=360 or 741<=width<=900 or 901<=width<=960)
+            expected_approved_change=(width<=360 or 741<=width<=900 or 901<=width<=1000)
             if diff.get('changed_pixel_fraction',1)>0.0003 and not expected_approved_change:
               issues.append('meaningful_pixel_difference_from_baseline')
             if m['scrollWidth']>width+1: issues.append('horizontal_document_overflow')
@@ -114,8 +114,13 @@ def run():
                 issues.append('approved_narrow_desktop_globe_scale_not_applied')
               if m['globeContent']['right']>width+1:
                 issues.append('approved_narrow_desktop_globe_still_clipped')
-            if width==961 and not (459<=m['globeContent']['width']<=461):
-              issues.append('full_size_globe_does_not_restore_above_960')
+            if 961<=width<=1000:
+              if not (430<=m['globeContent']['width']<=435):
+                issues.append('approved_globe_961_to_1000_fit_not_applied')
+              if m['globeContent']['right']>width+1:
+                issues.append('approved_globe_961_to_1000_still_clipped')
+            if width==1001 and not (459<=m['globeContent']['width']<=461):
+              issues.append('full_size_globe_does_not_restore_above_1000')
             if m['titleScrollWidth']>m['titleClientWidth']+3: issues.append('hero_heading_overflows_own_box')
             if issues: report['failures'].append({'viewport':width,'issues':issues,'baseline_scrollWidth':data['baseline']['scrollWidth'],'candidate_scrollWidth':m['scrollWidth'],'overflow_elements':m['overflowElements']})
             report['viewports'][str(width)]={'screenshot_comparison':diff,'candidate_layout':m,'issues':issues}
