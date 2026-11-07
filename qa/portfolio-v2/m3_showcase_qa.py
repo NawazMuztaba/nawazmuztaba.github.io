@@ -60,7 +60,7 @@ def observe(page):
             labelledBy:c.getAttribute('aria-labelledby'),
             details:c.querySelectorAll('dl.project-evidence dt').length,
             descriptions:[...c.querySelectorAll('dl.project-evidence dd')].map(e=>e.textContent.trim()),
-            summaryFont:parseFloat(getComputedStyle(c.querySelector('.project-summary')).fontSize),
+            summaryFont:c.querySelector('.project-summary') ? parseFloat(getComputedStyle(c.querySelector('.project-summary')).fontSize) : 0,
             card:rect(c),link:link?rect(link):null};
         }),
         missingInternalAnchors:[...document.querySelectorAll('a[href^="#"]')]
