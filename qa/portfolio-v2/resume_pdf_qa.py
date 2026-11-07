@@ -16,7 +16,7 @@ import threading
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[2]
-REL = "portfolio-v2-preview/assets/Nawaz_Muztaba_Resume.pdf"
+REL = "assets/Nawaz_Muztaba_Resume.pdf"
 FILE = ROOT / REL
 NAME = "Nawaz_Muztaba_Resume.pdf"
 EXPECTED_SHA256 = "94725e11537ad488169299a0cd5351c64134402dae06ee877e7897b80c8ae221"
@@ -55,7 +55,7 @@ def run():
     server = Server(("127.0.0.1", 0),handler)
     threading.Thread(target=server.serve_forever,daemon=True).start()
     url=f"http://127.0.0.1:{server.server_address[1]}/portfolio-v2-preview/"
-    asset=url+"assets/"+NAME
+    asset=url.replace("/portfolio-v2-preview/","/assets/")+NAME
 
     try:
       with sync_playwright() as playwright:
@@ -85,7 +85,7 @@ def run():
                 report["errors"].append(f"{width}px horizontal overflow")
             if ui["view_count"]!=1 or ui["download_count"]!=1:
                 report["errors"].append(f"{width}px wrong resume CTA count")
-            expected="./assets/"+NAME
+            expected="/assets/"+NAME
             if (ui["view_href"]!=expected or ui["nav_href"]!=expected or
                 ui["download_href"]!=expected or ui["download_filename"]!=NAME or
                 ui["view_target"]!="_blank"):
