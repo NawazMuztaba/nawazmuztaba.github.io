@@ -6,5 +6,5 @@ if(toggle&&nav){
   nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&nav.classList.contains("open")){close();toggle.focus()}});
   document.addEventListener("pointerdown",e=>{if(!nav.contains(e.target)&&!toggle.contains(e.target))close()});
-  window.addEventListener("resize",()=>{if(window.innerWidth>740)close()});
+  window.addEventListener("resize",()=>{if(window.innerWidth>900)close()});
 }

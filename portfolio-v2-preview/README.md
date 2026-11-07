@@ -1,70 +1,73 @@
-# Portfolio V2 — Phase 3 Interactive Prototype
+# APEX Portfolio 2.0 — Original Globe Prototype
+**Status: REVIEW ONLY — NOT RELEASED**  
+**Updated:** 2026-11-07  
+**Owner's approved current direction:** premium dark cybersecurity portfolio with the original green/red/cyan animated wireframe globe, on the **right of the hero at desktop widths**.
 
-**Status:** REVIEW ONLY. Prototype built on feature branch \`feat/portfolio-v2-prototype-20261107\` and not yet released. Main/root \`index.html\`, \`projects/agentcheck-v2/**\`, and older PR #2 are unchanged. Approved design direction: **A — Cybersecurity × Premium Engineering**. Design requirements/handoff: [docs-only PR #3](https://github.com/NawazMuztaba/nawazmuztaba.github.io/pull/3).
+## Read this first
+The source of truth is the **latest owner-decision/recovery section** at `docs/portfolio-v2/START_HERE.md` in [documentation PR #3](https://github.com/NawazMuztaba/nawazmuztaba.github.io/pull/3), plus the [M0/M1 source audit](https://github.com/NawazMuztaba/nawazmuztaba.github.io/blob/docs/portfolio-v2-continuity-20261107/docs/portfolio-v2/M0_M1_AUDIT_2026-11-07.md).
 
-## How to preview locally
-Clone/download this feature branch. From the repository root, start a local HTTP server:
+**Active prototype:** `feat/portfolio-v2-prototype-20261107`, tracked in [draft PR #4](https://github.com/NawazMuztaba/nawazmuztaba.github.io/pull/4) targeting `main`. Work in any narrower review branch remains separate until it is reviewed and intentionally merged. The live GitHub Pages homepage has **not** been replaced by V2.
 
-\`\`\`sh
+Previous V2.1/V2.2 geographic-Earth prototypes, Globe V3 and the Obsidian Aurora palette were **rejected or superseded for the active hero**. Do not follow stale globe instructions in older design/engineering files over the later recovery record.
+
+## Run this version locally
+Download/clone the **current branch** rather than reusing an old ZIP.
+
+From the repository root:
+```bash
 python -m http.server 8000
-\`\`\`
+```
+Open **http://localhost:8000/portfolio-v2-preview/**.
 
-Then visit **http://localhost:8000/portfolio-v2-preview/**. Do **not** open the HTML using a \`file://\` URL: local modules/textures may not load correctly under browser security rules.
+Alternatively, start the server from within `portfolio-v2-preview/` and open **http://localhost:8000/**.
 
-This branch is not configured as the production GitHub Pages publishing source; a draft PR is not a public interactive preview by itself.
+A local HTTP server is preferred to opening `index.html` directly as a `file://` URL. The original globe requires the browser to load a pinned external Three.js script from cdnjs. If that request fails or WebGL is unsupported, the 3D animation may not appear.
 
-## Implemented in this scoped prototype
-- Premium navy/cyan/emerald design; semantic hero; credible copy; three verifiable public project links.
-- Responsive navigation with keyboard Escape and outside-click closing.
-- Responsive desktop/touch layout; accessible links; reduced-motion styling.
-- Real Three.js **r187 (0.187.0)** WebGL2 globe on desktop: textured geographic Earth, latitude/longitude lines, orbit rings, illustrative network points, arcs, moving pulses and optional mouse drag.
-- Pause/resume button, tab/in-view pause, pixel-ratio cap, responsive canvas resizing, disposal on pagehide, context-loss fallback, and static SVG Earth fallback.
-- No fabricated skill percentages, fake certifications, fake attack logs or misleading form submission confirmations.
-- Owner's current resume is **not copied publicly**; the temporary call-to-action is a genuine \`mailto:\` "Request resume".
+## Actual active implementation (source-verified; runtime QA pending)
+| Area | Files / behavior |
+|---|---|
+| Portfolio layout and contents | `index.html`: hero, selected work, professional experience, technical capabilities, about/education, contact and footer |
+| Visual system | `styles.css`: navy/cyan/emerald site theme plus preserved original globe ring styling and recovered desktop hero grid |
+| Navigation | `ui.js`: responsive menu, close on nav link / outside pointer / Escape, reset on resize |
+| **Active original globe** | `original-globe.js` and HTML `#tc` canvas; Three.js **r128** global build loaded by `index.html` |
+| Older *inactive* experiment | `globe.js` is the superseded V2.2 geographic-Earth implementation; **it is not imported or executed** by the current `index.html` |
+| Historical assets | `assets/earth-texture.svg` and `assets/globe-fallback.svg` were made for the old geographic Earth; current hero does **not** render them |
 
-## Important limitations / release blockers
-1. **Browser visual test has not yet been performed** for WebGL, SVG texture compatibility, actual FPS or layout screenshot. Static syntax/file checks are not substitutes for real browser testing.
-2. Performance and WCAG acceptance testing remain pending across browsers, 390px and other viewports, keyboard navigation, low-end devices, reduced motion, and offline CDN cases.
-3. A stable CDN serves the pinned Three.js module; when absent the static fallback remains visible. Consider self-hosting after size and licensing review.
-4. Globe visual is **illustrative**, not live network telemetry or SOC incident data; exact similarity to the concept art is not guaranteed before screenshot iteration.
-5. Official SafeAeon job title, project dates, credentials and numerical metrics still need verification. This draft uses cautious descriptions and omits questionable numbers.
-6. The current GitHub Pages homepage remains unchanged. The public AgentCheck study is a bounded demo; full private source is not included.
-7. Resume link must point to an owner-approved PDF only after privacy check. The prototype intentionally does not expose existing obsolete PDFs.
-8. Project metrics and certification details omitted until evidence is approved. Both SOC Automation and Sentinel-X linked repositories were publicly checked.
-9. Animated connections/hotspot interaction modes described as future options are **not implemented** in this initial version. Globe here uses animated illustrative pulses, not clickable security dossiers.
-10. The original concept PNG reference hashes are documented in PR #3 but binary files require separate owner-controlled durable upload.
+### The approved globe is locked
+- Original code source: `portfolio-v2-preview/original-globe.js`.
+- Original globe blob SHA at this checkpoint: `1be0c45a592aa54aa78bf42682964a0d11303977`.
+- Exact original material colors: green `#00FF41`, red `#FF2244`, cyan `#00E5FF`, dark core `#010801`.
+- Original 340 × 340 WebGL canvas, original animated wireframe layers, nodes, arcs, particles, satellite motion and surrounding three HTML/CSS rings.
+- Current desktop hero layout places copy on the left and the original globe on the right above 900px. At narrower widths, the layout stacks.
+- **Do not recolor, redesign, or change globe geometry/motion without explicit owner approval.** Preserve a recoverable source checkpoint.
 
-## Asset provenance
-- \`assets/earth-texture.svg\` and \`assets/globe-fallback.svg\` are generated from [Natural Earth 1:110m land vector geography](https://github.com/nvkelso/natural-earth-vector), which is **public domain**.
-- Globe source: Three.js \`0.187.0\`, MIT licensed, loaded as an ECMAScript module from jsDelivr.
-- All project and service content is authored for this user's portfolio prototype; no client/customer data is included.
+### What is *not* implemented in the active globe
+The original source starts an ongoing `requestAnimationFrame` loop and does **not** currently expose a working pause/resume button, tab-visibility suspension, WebGL resource disposal, or a fully equivalent reduced-motion fallback. Its original green globe also does **not** implement geographic Earth rendering, pointer drag, an atmosphere shader, or the V2.2 radar/pedestal controls.
 
-## QA checklist before any merge
-- [ ] Desktop screenshot at 1440 × 900 visually reviewed against approved concept A
-- [ ] 390 × 844 mobile screenshot; no horizontal clipping
-- [ ] Globe rendered and rotating in a real browser with clear continents
-- [ ] Pause/resume, pointer drag, reduced-motion, and off-screen pause verified
-- [ ] Keyboard navigation/mobile menu/focus checks
-- [ ] Browser console free of unexpected exceptions; WebGL fallback tested
-- [ ] Links and contact actions tested; resume action replaced only with owner consent
-- [ ] Updated content independently verified; no private sources leaked
-- [ ] LCP/INP/CLS/transfer size and GPU profile measured
-- [ ] Owner approves prototype and review PR before any main-branch replacement
+The CSS disables decorative ring animations for reduced-motion preferences, but **that does not pause the WebGL loop**. Without Three.js/WebGL there is currently no active static art fallback in the hero. These are assessment/remediation items, **not completed accessibility/performance features**.
 
+## Current content and evidence restrictions
+- Featured order: **AgentCheck V2 Alpha**, **Intelligent SOC Automation**, **Sentinel-X**.
+- AgentCheck public technical case study is a **bounded local/synthetic research demonstration**. The full private source repository `NawazMuztaba/apex-permitlab` stays private; do not imply production-certified protection or general immunity to prompt injection.
+- Some biography, official employment-title, degree-completion, certificate and project evidence details remain under review. Do not manufacture outcomes, metrics, job titles, earned credentials or operational claims.
+- An approved/current resume PDF has **not** been published in this prototype; `Request resume` uses a `mailto:` action.
+- Confirm the portfolio contact information with the owner before publication. A `mailto:` action is **not** a confirmed sent message.
+- Do not copy customer logs, private security artifacts or personal secrets into public HTML.
 
-## Globe V2.2 design checkpoint — 2026-11-07
+## Source clean-up scope (separate review work)
+Obsolete styling for `.globe-stage`, `.globe-fallback`, old radar sweep, pedestal and V2.2 Earth visuals should be treated as **legacy only**. Removing confirmed unused CSS must not change the original `.legacy-hero`, `.original-globe`, `.cring`, `#tc`, animation function or responsive positioning. Keep the superseded `globe.js` and assets until a separately reviewed deletion/archival decision.
 
-**Owner feedback:** Initial WebGL globe was rejected as flat, too dark and unlike the approved concept. The owner explicitly wants a **recognizable detailed Earth** rather than a pure wireframe. Keep the positive motion traits of the original homepage (fast changing red signal orbits), plus premium cyan/emerald light, rim glow, network arcs, nodes, holographic base and a roughly 10–15% smaller hero footprint. This V2.2 replaces V2.1 globe code inside this same prototype PR; the public homepage remains unchanged.
+## Required QA before any release
+These are **not pass claims**; they are still required:
+- [ ] Review genuine Chrome/Edge screenshots at desktop 1440 × 900 and 1280px; confirm text-left/globe-right without overlap
+- [ ] Review 320px / 360px / 390px / 480px / 740px / 768px / 900px / 901px / 1010px / 1024px / 1366px / 1920px responsive layouts, no horizontal overflow
+- [ ] Verify keyboard-only navigation, focus order, mobile menu, Escape, link behavior and 200% zoom
+- [ ] Verify actual WebGL rendering, browser console, tab visibility, CPU/GPU cost and relevant FPS measurements
+- [ ] Verify reduced-motion behavior: CSS ring pause exists; ongoing WebGL animation remains a known limitation
+- [ ] Verify three featured project links and the public AgentCheck case-study link; check final content for supported claims
+- [ ] Test offline/blocked CDN and WebGL-unavailable behavior; design a fallback before production release
+- [ ] Verify mobile Safari / Firefox where available and measure LCP, INP, CLS and transfer size
+- [ ] Obtain owner approval for meaningful visual changes and explicit permission before merging PR #4 to `main`
 
-### Implemented V2.2 changes
-- Updated `globe.js`: custom geographic shader with correct sRGB texture/output handling, atmospheric Fresnel rim, visibly illuminated land, glowing node sprites, animated red/cyan/green orbit streaks, moving signal pulses, sparse construction grid, and holographic Three.js base rings.
-- Updated `styles.css`: compact stage, CSS red radar sweep, brighter fallbacks/haze, layered hologram ring, improved control of motion. Pause button halts WebGL **and** CSS radar. Mobile radar is static.
-- Updated `index.html`: AgentCheck public case-study URL is absolute and works when preview is served from the `portfolio-v2-preview` folder.
-- Preserved existing `earth-texture.svg` and `globe-fallback.svg` Natural Earth/public-domain assets; no private project source or user resumes published.
-
-### Evidence and remaining review
-- **19/19 static checks** passed on current V2.2 branch at this checkpoint: syntax via JavaScript parser, asset presence, source guardrails and CSS/JS motion hooks. These are **not browser/render tests**.
-- Need **actual Chrome WebGL screenshot and runtime validation** (shader compilation, texture visibility, motion, pause/resume, drag, console errors), followed by mobile/reduced-motion and performance checks.
-- Note the old downloaded ZIP on the owner's Windows laptop does **not auto-update** when GitHub branch changes. Download a fresh ZIP from the branch and extract again before testing V2.2.
-- When serving **inside** the `portfolio-v2-preview` directory using `python -m http.server 8000`, open `http://localhost:8000/` (NOT `/portfolio-v2-preview/`). When serving from repo root use `http://localhost:8000/portfolio-v2-preview/`.
-- **DO NOT MERGE PR #4 / DO NOT PUBLISH** until owner reviews a real screenshot. No release decision has been made.
+## Release guardrails
+Do **not** directly change `main`, touch `projects/agentcheck-v2/**`, merge PR #4, reintroduce Obsidian Aurora, expose private AgentCheck source, or publish obsolete resume PDFs without separate approval. The current prototype base commit `26bd33d879be44fd5cf52ff42b74748b5cd0b0d1` is a rollback checkpoint. Code review and browser testing must happen before any release decision.
