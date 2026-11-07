@@ -153,7 +153,7 @@ def run():
               if card["link"] is None:
                 issues.append(f"card_{index+1}_link_missing")
               else:
-                if card["link"]["left"]<card["card"]["x"]-1 or card["link"]["right"]>card["card"]["right"]+1:
+                if card["link"]["x"]<card["card"]["x"]-1 or card["link"]["right"]>card["card"]["right"]+1:
                   issues.append(f"card_{index+1}_link_clipped_horizontally")
                 if card["link"]["bottom"]>card["card"]["bottom"]+1:
                   issues.append(f"card_{index+1}_link_clipped_vertically")
