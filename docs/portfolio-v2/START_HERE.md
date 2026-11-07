@@ -146,3 +146,10 @@ Act as Principal Cybersecurity Portfolio Architect, Technical UX Lead, and Relea
 - The source PDF has pre-existing clipped skill text and a noncanonical AgentCheck link. Owner requested keeping the **original unchanged**, so these were not silently corrected. Future edited PDF requires a new explicit request.
 - Original globe JS still SHA `1be0c45a592aa54aa78bf42682964a0d11303977`. **Do not merge PR #4 or publish the portfolio without explicit release approval.**
 
+## 2026-11-07 — PORTFOLIO V2 LIVE ON THE ROOT DOMAIN
+- User explicitly ordered immediate public launch at `nawazmuztaba.github.io`. **Production PR #11 MERGED** into `main`, commit `75eed9c961dfe43de0a79c52b21e1be321928862`. New root `index.html` serves Portfolio V2; CSS, UI, original globe JS, and original PDF are now served from root-level assets. The original globe source SHA is unchanged: `1be0c45a592aa54aa78bf42682964a0d11303977`. The resume PDF SHA256 remains `94725e11537ad488169299a0cd5351c64134402dae06ee877e7897b80c8ae221`.
+- **FRESH LIVE HTTP CHECK PASS**: homepage HTTP 200/new “Nawaz Muztaba | Cybersecurity Engineering” title and hero; `/styles.css` 200 text/css; `/ui.js` and `/original-globe.js` 200 application/javascript; `/assets/Nawaz_Muztaba_Resume.pdf` 200 application/pdf. Full evidence and rollback: [PRODUCTION_RELEASE_2026-11-07.md](./PRODUCTION_RELEASE_2026-11-07.md).
+- Older draft PR #4 was **closed without merging** as superseded by PR #11. Do not reopen/merge it just to launch the homepage; the new portfolio is already live. The development prototype branch is retained for historical comparison.
+- Original owner resume is published **unchanged** by explicit user direction, including phone number. Previously observed clipped last skill line and embedded AgentCheck link are known defects, not silently fixed. HR conversion/degree/credential evidence and broader manual Safari/a11y/performance checks are future scope.
+- Any further production edits must use a **new scoped PR into main** with updated QA. Baseline before release: `35e627bfa69c161717bebb31d19c62ea5c7162a2`; avoid force pushes.
+
