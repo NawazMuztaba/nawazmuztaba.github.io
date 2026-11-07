@@ -37,6 +37,11 @@ def measure(page):
       const rings=Array.from(document.querySelectorAll('.legacy-hero .cring'));
       return {
         scrollWidth:document.documentElement.scrollWidth,
+        overflowElements:Array.from(document.querySelectorAll('body *')).map(el=>{
+          const r=el.getBoundingClientRect();
+          return {tag:el.tagName,cls:typeof el.className==='string'?el.className.slice(0,90):'',
+                  id:el.id||'',left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width)};
+        }).filter(x=>x.right>innerWidth+1||x.left<-1).slice(0,12),
         viewportWidth:innerWidth,
         copy:rect('.hero-copy'),globe:rect('.legacy-hero'),
         titleScrollWidth:title.scrollWidth,titleClientWidth:title.clientWidth,
@@ -96,7 +101,7 @@ def run():
             if width>=901 and m['globe']['x']<m['copy']['right']-2: issues.append('hero_columns_overlap')
             if width<=900 and m['globe']['y']<m['copy']['bottom']-2: issues.append('hero_stacked_sections_overlap')
             if m['titleScrollWidth']>m['titleClientWidth']+3: issues.append('hero_heading_overflows_own_box')
-            if issues: report['failures'].append({'viewport':width,'issues':issues})
+            if issues: report['failures'].append({'viewport':width,'issues':issues,'baseline_scrollWidth':data['baseline']['scrollWidth'],'candidate_scrollWidth':m['scrollWidth'],'overflow_elements':m['overflowElements']})
             report['viewports'][str(width)]={'screenshot_comparison':diff,'candidate_layout':m,'issues':issues}
 
           context=browser.new_context(viewport={'width':390,'height':844},reduced_motion='reduce')
