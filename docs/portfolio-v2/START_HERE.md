@@ -67,3 +67,12 @@ Act as Principal Cybersecurity Portfolio Architect, Technical UX Lead, and Relea
 - To preview: download branch ZIP, extract, open `portfolio-v2-preview`, run `python -m http.server 8000`, browse `http://localhost:8000/`.
 - Important: owner's old globe is an **abstract wireframe cyber sphere**, not detailed geographic Earth. Do not insert V3 flat picture or V2.2 Earth shader into PR #6 unless owner changes direction.
 - Main and published AgentCheck untouched. Keep draft PR #2, #3, #4, #5, #6 unmerged unless explicitly authorized.
+
+## 2026-11-07 — LATEST: Obsidian Aurora reversible experiment (DRAFT PR #7)
+- Owner approved a limited **Version A** test: fix right-side hero positioning and try premium colors, but preserve ability to revert to the original.
+- **Draft PR #7** https://github.com/NawazMuztaba/nawazmuztaba.github.io/pull/7 targets original-globe feature branch (PR #6), NOT main. Experiment branch: `feat/portfolio-v2-obsidian-aurora-20261107`.
+- Corrected malformed HTML: the `<div class="hero-visual">` had been accidentally placed inside `<ul class="skill-strip">` and leftover V2 markup remained. Two sibling hero grid items now render intro left and globe right at desktop widths over 900px; smaller devices intentionally stack.
+- Original globe dynamics kept intact: animation block byte-identical, original node counts, geometry and 340px renderer unchanged. Only materials updated to Emerald 0x34e2a8, Cyan 0x49ddf5, Coral Red 0xff4d6d, Obsidian Core 0x040b14, Ice primary nodes 0xa7fff0; outer CSS rings color-tuned.
+- 15/15 source checks passed. Real browser visual impression/FPS NOT yet tested or approved. User should download a NEW ZIP from PR #7 head branch and run local Python HTTP server from `portfolio-v2-preview`.
+- **Rollback:** Original unchanged colors remain in PR #6; if user dislikes palette, restore PR #6 original-globe.js material values while KEEPING valid HTML/layout from PR #7. Do NOT simply revert PR #7 wholesale, because PR #6 HTML was malformed.
+- GitHub main, public case study and previous PRs untouched; DO NOT merge anything until explicit release approval.
