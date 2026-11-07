@@ -25,10 +25,14 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Verify experience, skills and protected hero
         run: python qa/portfolio-v2/m4_identity_qa.py
+      - name: Verify owner's exact hosted PDF and real browser download
+        run: python qa/portfolio-v2/resume_pdf_qa.py
       - name: Upload visual and JSON QA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: portfolio-v2-m4-review-evidence
-          path: qa-artifacts/portfolio-v2-m4/
+          path: |
+            qa-artifacts/portfolio-v2-m4/
+            qa-artifacts/portfolio-v2-resume/
           if-no-files-found: warn
