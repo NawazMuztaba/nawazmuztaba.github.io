@@ -54,7 +54,7 @@ def measure(page):
          skillCardCount:cards.length,
          skillContexts:document.querySelectorAll(".capability-context").length,
          cardFonts:cards.map(x=>parseFloat(getComputedStyle(x.querySelector(".capability-context")).fontSize)),
-         experienceBulletsFont:parseFloat(getComputedStyle(document.querySelector(".timeline-highlights")).fontSize),
+         experienceBulletsFont:document.querySelector(".timeline-highlights") ? parseFloat(getComputedStyle(document.querySelector(".timeline-highlights")).fontSize) : 0,
          projectCardCount:document.querySelectorAll(".project-card").length,
          internalMissing:[...document.querySelectorAll('a[href^="#"]')].filter(a=>a.hash.length>1&&!document.getElementById(a.hash.slice(1))).map(a=>a.hash),
          capabilityAnchor:!!document.getElementById("capabilities"),
